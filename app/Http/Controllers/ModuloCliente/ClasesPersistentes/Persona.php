@@ -6,7 +6,8 @@
  * Date: 4/11/2015
  * Time: 10:45 PM
  */
-class Persona extends controll
+namespace App\Http\Controllers;
+class Persona extends controller
 {
     private $nombre;
     private $apellido;

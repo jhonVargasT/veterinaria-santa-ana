@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 class Animal extends controller
 {
+    private $idAnimal;
     private  $nombre;
     private $sexo;
     private $esterilizacion;

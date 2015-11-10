@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 class Persona extends controller
 {
+    public $idPersona;
     private $nombre;
     private $apellido;
     private $sexo;
@@ -20,6 +21,53 @@ class Persona extends controller
     private $referenciasLocali;
     private $telefonoFijo;
     private $telefonoMobil;
+
+    /**
+     * Persona constructor.
+     * @param $idPersona
+     * @param $nombre
+     * @param $apellido
+     * @param $sexo
+     * @param $docuIdent
+     * @param $fechaNacimiento
+     * @param $email
+     * @param $ciudad
+     * @param $direccion
+     * @param $referenciasLocali
+     * @param $telefonoFijo
+     * @param $telefonoMobil
+     */
+    public function __construct($idPersona, $nombre, $apellido, $sexo, $docuIdent, $fechaNacimiento, $email, $ciudad, $direccion, $referenciasLocali, $telefonoFijo, $telefonoMobil)
+    {
+        $this->idPersona = $idPersona;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
+        $this->sexo = $sexo;
+        $this->docuIdent = $docuIdent;
+        $this->fechaNacimiento = $fechaNacimiento;
+        $this->email = $email;
+        $this->ciudad = $ciudad;
+        $this->direccion = $direccion;
+        $this->referenciasLocali = $referenciasLocali;
+        $this->telefonoFijo = $telefonoFijo;
+        $this->telefonoMobil = $telefonoMobil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdPersona()
+    {
+        return $this->idPersona;
+    }
+
+    /**
+     * @param mixed $idPersona
+     */
+    public function setIdPersona($idPersona)
+    {
+        $this->idPersona = $idPersona;
+    }
 
     /**
      * Persona constructor.
@@ -35,20 +83,7 @@ class Persona extends controller
      * @param $telefonoFijo Telefono
      * @param $telefonoMobil celular
      */
-    public function __construct($nombre, $apellido, $sexo, $docuIdent, $fechaNacimiento, $email, $ciudad, $direccion, $referenciasLocali, $telefonoFijo, $telefonoMobil)
-    {
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->sexo = $sexo;
-        $this->docuIdent = $docuIdent;
-        $this->fechaNacimiento = $fechaNacimiento;
-        $this->email = $email;
-        $this->ciudad = $ciudad;
-        $this->direccion = $direccion;
-        $this->referenciasLocali = $referenciasLocali;
-        $this->telefonoFijo = $telefonoFijo;
-        $this->telefonoMobil = $telefonoMobil;
-    }
+
 
     /**
      * @return mixed

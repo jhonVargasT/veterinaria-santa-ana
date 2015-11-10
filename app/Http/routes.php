@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,4 +14,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('num1/{num1}/num2/{num2}','probar@suma');
+Route::get('/cant','ServiceEspecie@agregarEspecie');

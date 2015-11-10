@@ -11,10 +11,62 @@ namespace App\Http\Controllers;
 
 class Especie extends Controller
 {
+    public $idEspecie;
     public $nombre;
     public $tipo;
     public $descripcion;
     public $tipoDePiel;
+
+
+    /**
+     * Especie constructor.
+     * @param $idEspecie
+     * @param $nombre
+     * @param $tipo
+     * @param $descripcion
+     * @param $tipoDePiel
+     */
+    public function __construct($idEspecie, $nombre, $tipo, $descripcion, $tipoDePiel)
+    {
+        $this->idEspecie = $idEspecie;
+        $this->nombre = $nombre;
+        $this->tipo = $tipo;
+        $this->descripcion = $descripcion;
+        $this->tipoDePiel = $tipoDePiel;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTipoDePiel()
+    {
+        return $this->tipoDePiel;
+    }
+
+    /**
+     * @param mixed $tipoDePiel
+     */
+    public function setTipoDePiel($tipoDePiel)
+    {
+        $this->tipoDePiel = $tipoDePiel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdEspecie()
+    {
+        return $this->idEspecie;
+    }
+
+    /**
+     * @param mixed $idEspecie
+     */
+    public function setIdEspecie($idEspecie)
+    {
+        $this->idEspecie = $idEspecie;
+    }
 
     /**
      * Especie constructor.
@@ -22,13 +74,7 @@ class Especie extends Controller
      * @param $tipo
      * @param $descripcion
      */
-    public function __construct($nombre, $tipo, $descripcion,$tipoDePiel)
-    {
-        $this->nombre = $nombre;
-        $this->tipo = $tipo;
-        $this->descripcion = $descripcion;
-        $this->tipoDePiel=$tipoDePiel;
-    }
+
 
     /**
      * @return mixed

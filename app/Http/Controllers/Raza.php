@@ -11,9 +11,11 @@ namespace App\Http\Controllers;
 
 class Raza extends controller
 {
+    public $idRaza;
     public $nombreRaza;
     public $estiloPiel;
-    public $Especie;
+    public $idEspecie;
+
 
     /**
      * Raza constructor.
@@ -21,11 +23,44 @@ class Raza extends controller
      * @param $estiloPiel
      * @param $Especie
      */
-    public function __construct($nombreRaza, $estiloPiel,Especie $Especie)
+    public function __construct($idRaza,$nombreRaza, $estiloPiel,$idEspecie)
     {
+        $this->idRaza=$idRaza;
         $this->nombreRaza = $nombreRaza;
         $this->estiloPiel = $estiloPiel;
-        $this->Especie = $Especie;
+        $this->Especie =$idEspecie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdRaza()
+    {
+        return $this->idRaza;
+    }
+
+    /**
+     * @param mixed $idRaza
+     */
+    public function setIdRaza($idRaza)
+    {
+        $this->idRaza = $idRaza;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdEspecie()
+    {
+        return $this->idEspecie;
+    }
+
+    /**
+     * @param mixed $idEspecie
+     */
+    public function setIdEspecie($idEspecie)
+    {
+        $this->idEspecie = $idEspecie;
     }
 
     /**
@@ -60,21 +95,6 @@ class Raza extends controller
         $this->estiloPiel = $estiloPiel;
     }
 
-    /**
-     * @return Especie
-     */
-    public function getEspecie()
-    {
-        return $this->Especie;
-    }
-
-    /**
-     * @param Especie $Especie
-     */
-    public function setEspecie($Especie)
-    {
-        $this->Especie = $Especie;
-    }
 
 
 }

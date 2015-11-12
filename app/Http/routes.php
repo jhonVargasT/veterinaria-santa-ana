@@ -14,4 +14,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/cant','ServiceEspecie@agregarEspecie');
+Route::get('/prueba','prueba@prueba');

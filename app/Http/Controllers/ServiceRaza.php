@@ -20,14 +20,14 @@ class ServiceRaza extends Controller
 
     public function listar()
     {
-        $especies= DB::select('select * from Raza WHERE Activado = 1');
-        return $especies;
+        $raza= DB::select('select * from Raza WHERE Activado = 1');
+        return $raza;
     }
 
-    public function obtenerRaza($idEspecie)
+    public function obtenerRaza($idRaza)
     {
-        $especie=DB::table('raza')->where('idRaza',$idEspecie)->first();
-        return $especie;
+        $raza=DB::table('raza')->where('idRaza',$idEspecie)->first();
+        return $raza;
     }
 
     public function obtenerRazaNombre($nombre)
@@ -54,20 +54,22 @@ class ServiceRaza extends Controller
 
     }
 
-    public function modificarRaza($id)
+    public function modificarRaza(Raza  $raza)
     {
 
        DB::table('raza')
-            ->where('idRaza', $id)
-            ->update(['Activado'=>0]);
+            ->where('idRaza', $raza->getIdRaza())
+            ->update(['Especie_idEspecie'=>$raza->getIdEspecie(),
+                'Nombre'=>$raza->getNombreRaza(),
+                'EstiloDePelo'=>$raza->getEstiloPiel()]);
     }
-    public function  eliminarEspeciePorID( $id)
+    public function  eliminarRazaPorID( $id)
     {
         DB::table('raza')
             ->where('idRaza', $id)
             ->update(['Activado'=>0]);
     }
-    public function  eliminarEspeciePorNombre( $nombre)
+    public function  eliminarRazaPorNombre( $nombre)
     {
        DB::table('raza')
             ->where('Nombre', $nombre)

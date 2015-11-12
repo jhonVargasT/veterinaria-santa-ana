@@ -20,7 +20,7 @@ class Persona extends controller
     private $direccion;
     private $referenciasLocali;
     private $telefonoFijo;
-    private $telefonoMobil;
+    private $telefonoMovil;
 
     /**
      * Persona constructor.
@@ -35,9 +35,9 @@ class Persona extends controller
      * @param $direccion
      * @param $referenciasLocali
      * @param $telefonoFijo
-     * @param $telefonoMobil
+     * @param $telefonoMovil
      */
-    public function __construct($idPersona, $nombre, $apellido, $sexo, $docuIdent, $fechaNacimiento, $email, $ciudad, $direccion, $referenciasLocali, $telefonoFijo, $telefonoMobil)
+    public function __construct($idPersona, $nombre, $apellido, $sexo, $docuIdent, $fechaNacimiento, $email, $ciudad, $direccion, $referenciasLocali, $telefonoFijo, $telefonoMovil)
     {
         $this->idPersona = $idPersona;
         $this->nombre = $nombre;
@@ -50,7 +50,7 @@ class Persona extends controller
         $this->direccion = $direccion;
         $this->referenciasLocali = $referenciasLocali;
         $this->telefonoFijo = $telefonoFijo;
-        $this->telefonoMobil = $telefonoMobil;
+        $this->telefonoMovil = $telefonoMovil;
     }
 
     /**
@@ -248,17 +248,17 @@ class Persona extends controller
     /**
      * @return mixed
      */
-    public function getTelefonoMobil()
+    public function getTelefonoMovil()
     {
-        return $this->telefonoMobil;
+        return $this->telefonoMovil;
     }
 
     /**
      * @param mixed $telefonoMobil
      */
-    public function setTelefonoMobil($telefonoMobil)
+    public function setTelefonoMovil($telefonoMovil)
     {
-        $this->telefonoMobil = $telefonoMobil;
+        $this->telefonoMovil = $telefonoMovil;
     }
 
 

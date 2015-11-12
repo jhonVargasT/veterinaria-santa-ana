@@ -7,7 +7,8 @@
  * Time: 2:21 PM
  */
 namespace App\Http\Controllers;
-class ServiceAnimal
+
+class ServiceAnimal extends Controller
 {
     public function __construct()
     {
@@ -15,58 +16,80 @@ class ServiceAnimal
 
     public function listar()
     {
-        $especies= DB::select('select * from Raza WHERE Activado = 1');
-        return $especies;
+
+        $animales = DB::select('select * from Animal WHERE Activado = 1');
+
+        return $animales;
     }
 
-    public function obtenerRaza($idEspecie)
+    public function listarAnimalesDeCliente($idCliente)
     {
-        $especie=DB::table('raza')->where('idRaza',$idEspecie)->first();
-        return $especie;
+        $animales = DB::select('select * from Animal WHERE Activado = ?', [$idCliente]);
+        return $animales;
     }
 
-    public function obtenerRazaNombre($nombre)
+    public function obtenerAnimal($idAnimal)
+    {
+        $animal = DB::table('animal')->where('idAnimal', $idAnimal)->first();
+        return $animal;
+    }
+
+    public function obtenerAnimalNombre($nombre)
     {
         ;
-        $result=DB::table('raza')->where('Nombre',$nombre)->first();
+        $result = DB::table('animal')->where('Nombre', $nombre)->first();
         //  Especie $especie=new Especie());
         return $result;
 
     }
 
-    public function agregarRaza(Raza  $raza)
+    public function agregarAnimal(Animal $animal)
     {
-        $count = DB::table('raza')->max('idRaza');
+        $count = DB::table('animal')->max('idAnimal');
         $count;
         // agregar una especie la columna activado es para eliminar(no se elimina el registro solo
         //cambia su estado)
-        DB::table('raza')->insert(
-            ['idRaza' =>$count+1,'Especie_idEspecie'=>$raza->getIdEspecie(),
-                'Nombre'=>$raza->getNombreRaza(),
-                'EstiloDePelo'=>$raza->getEstiloPiel(),'Activado'=>1
+        DB::table('animal')->insert(
+            ['idAnimal' => $count + 1, 'Codigo' => $animal->getCodigo(),
+                'Nombre' => $animal->getNombre(), 'Sexo' => $animal->getSexo(),
+                'Esterilizacion' => $animal->getEsterilizacion(), 'FechaDeNacimiento' => $animal
+                ->getFechaNacimiento(), 'Estado' => $animal->getEstado(),
+                'Observacion' => $animal->getObservacion(), 'Color' => $animal->getColor()
+                , 'Pedigree' => $animal->getPedigree(), 'NumPedigree' => $animal->getNumPedigree(),
+                'Cliente_idCliente' => $animal->getIdCliente(), 'Raza_idRaza' => $animal->getIdraza(),
+                'Activado' => 1
             ]
         );
 
     }
 
-    public function modificarRaza($id)
+    public function modificarAnimal(Animal $animal)
     {
+        DB::table('animal')
+            ->where('idAnimal', $animal->getIdAnimal())
+            ->update(['Codigo' => $animal->getCodigo(),
+                'Nombre' => $animal->getNombre(), 'Sexo' => $animal->getSexo(),
+                'Esterilizacion' => $animal->getEsterilizacion(), 'FechaDeNacimiento' => $animal
+                    ->getFechaNacimiento(), 'Estado' => $animal->getEstado(),
+                'Observacion' => $animal->getObservacion(), 'Color' => $animal->getColor()
+                , 'Pedigree' => $animal->getPedigree(), 'NumPedigree' => $animal->getNumPedigree(),
+                'Cliente_idCliente' => $animal->getIdCliente(), 'Raza_idRaza' => $animal->getIdraza()]);
+    }
 
-        DB::table('raza')
-            ->where('idRaza', $id)
-            ->update(['Activado'=>0]);
-    }
-    public function  eliminarEspeciePorID( $id)
+    public function  eliminarAnimalPorID($id)
     {
-        DB::table('raza')
-            ->where('idRaza', $id)
-            ->update(['Activado'=>0]);
+        DB::table('animal')
+            ->where('idAnimal', $id)
+            ->update(['Activado' => 0]);
     }
-    public function  eliminarEspeciePorNombre( $nombre)
+
+    public function  eliminarEspeciePorNombre($nombre)
     {
-        DB::table('raza')
+        DB::table('animal')
             ->where('Nombre', $nombre)
-            ->update(['Activado'=>0]);
+            ->update(['Activado' => 0]);
 
     }
+
+
 }

@@ -11,21 +11,34 @@ namespace App\Http\Controllers;
 
 class ServiceCliente extends controller
 {
-
+     private $servicePersona;
     public function __construct()
     {
-
+        $this->servicePersona= new ServicePersona();
     }
 
-    public function listar()
+    public function listarClientes()
     {
-        $especies = DB::select('select * from Cliente WHERE Activado = 1');
-        return $especies;
+
+        $clientes = DB::select('select * from cliente WHERE Activado = 1');
+        for($i=0;$i<count($clientes);$i++)
+            {
+                $persona=$this->servicePersona->obtenerPersona($clientes[$i]->Persona_IdPersona);
+                $cliente[$i]=new Cliente($clientes[$i]->idCliente,$clientes[$i]->FechaAfiliacion,
+                    $clientes[$i]->ComoConoce,$clientes[$i]->Foto,$clientes[$i]->Persona_IdPersona,
+                    $persona->getNombre(),$persona->getApellido(),$persona->getSexo(),
+                    $persona->getDocuIdent(),$persona->getFechaNacimiento(),$persona->getEmail()
+                    ,$persona->getCiudad(),$persona->getDireccion(),$persona->getReferenciasLocali(),
+                    $persona->getTelefonoMovil(),$persona->getTelefonoFijo());
+
+            }
+        return $cliente;
+
     }
 
     public function listarAnimalesDeCliente($idCliente)
     {
-        $especies = DB::select('select * from Animal WHERE Activado = ?', [$idCliente]);
+        $especies = DB::select('select * from cliente WHERE Activado = ?', [$idCliente]);
         return $especies;
     }
 

@@ -23,9 +23,10 @@ class prueba extends Controller
     }
     public function prueba()
     {
-       $personas=  $this->persona->obtenerPersona(1);
-        echo $personas->getNombre().$personas->getApellido();
 
+        $this->persona->listar();
     }
+
+
 
 }

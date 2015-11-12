@@ -24,57 +24,56 @@ class ServicePersona extends Controller
     {
 
         $persona = DB::select('select * from persona WHERE Activado = 1');
-        Return $persona;
+        for($i=0;$i<count($persona);$i++){
+            $Personas[$i]= new Persona($persona[$i]->IdPersona,$persona[$i]->Nombre,
+                $persona[$i]->Apellido,$persona[$i]->Sexo,$persona[$i]->DocIdent,
+                $persona[$i]->FechaNac,$persona[$i]->Email,
+                $persona[$i]->Ciudad,$persona[$i]->Direccion,$persona[$i]->ReferenciasLocali,
+                $persona[$i]->TelefFijo,$persona[$i]->TelefMovil);
+        }
+        return $Personas;
     }
-
-    /*  public function listarAnimalesDeCliente($idCliente)
-      {
-          $especies = DB::select('select * from persona WHERE Activado = ?', [$idCliente]);
-          return $especies;
-      }*/
 
     public function obtenerPersona($idpersona)
     {
 
-        $persona = DB::table('persona')->where('IdPersona', $idpersona)->first();
-        $person = new Persona($persona->IdPersona, $persona->Nombre, $persona->Apellido,
-            $persona->Sexo, $persona->DocIdent, $persona->FechaNac,
-            $persona->Email, $persona->Ciudad, $persona->Direccion, $persona->ReferenciasLocali,
-            $persona->TelefFijo, $persona->TelefMovil);
-        return $person;
+        $personas = DB::table('persona')->where('IdPersona', $idpersona)->first();
+        $persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
+            $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
+            $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
+            $personas->TelefFijo, $personas->TelefMovil);
+        return $persona;
     }
 
     public function obtenerPersonaNombre($nombre)
     {
 
-        $persona = DB::table('persona')->where('Nombre', $nombre)->first();
-        $person = new Persona($persona->IdPersona, $persona->Nombre, $persona->Apellido,
-            $persona->Sexo, $persona->DocIdent, $persona->FechaNac,
-            $persona->Email, $persona->Ciudad, $persona->Direccion, $persona->ReferenciasLocali,
-            $persona->TelefFijo, $persona->TelefMovil);
-        return $person;
+        $personas = DB::table('persona')->where('Nombre', $nombre)->first();
+        $persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
+            $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
+            $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
+            $personas->TelefFijo, $personas->TelefMovil);
+        return $persona;
     }
 
     public function agregarPersona(Persona $persona)
     {
-        $count = DB::table('persona')->max('IdPersona');
-        $count;
         // agregar una especie la columna activado es para eliminar(no se elimina el registro solo
         //cambia su estado)
         DB::table('persona')->insert(
-            ['IdPersona' => $count + 1, 'DocIdent' => $persona->getDocuIdent(),
+            ['IdPersona' => $persona->getIdPersona(), 'DocIdent' => $persona->getDocuIdent(),
                 'Nombre' => $persona->getNombre(), 'Apellido' => $persona->getApellido(),
                 'Sexo' => $persona->getSexo(), 'FechaNac' => $persona->getFechaNacimiento(),
                 'Email' => $persona->getEmail(), 'Ciudad' => $persona->getCiudad(),
-                'Direccion' => $persona->getDireccion(), 'ReferenciaLocali' => $persona->getReferenciasLocali()
-                , 'TeleFijo' => $persona->getTelefonoFijo(), 'TelefMovil' => $persona->getTelefonoMovil(),
+                'Direccion' => $persona->getDireccion(), 'ReferenciasLocali' => $persona->getReferenciasLocali()
+                , 'TelefFijo' => $persona->getTelefonoFijo(), 'TelefMovil' => $persona->getTelefonoMovil(),
                 'Activado' => 1
             ]
         );
 
     }
 
-    public function modificarAnimal(Persona $persona)
+    public function modificarPersona(Persona $persona)
     {
         DB::table('persona')
             ->where('IdPersona', $persona->getIdPersona())
@@ -82,11 +81,11 @@ class ServicePersona extends Controller
                 'Nombre' => $persona->getNombre(), 'Apellido' => $persona->getApellido(),
                 'Sexo' => $persona->getSexo(), 'FechaNac' => $persona->getFechaNacimiento(),
                 'Email' => $persona->getEmail(), 'Ciudad' => $persona->getCiudad(),
-                'Direccion' => $persona->getDireccion(), 'ReferenciaLocali' => $persona->getReferenciasLocali()
-                , 'TeleFijo' => $persona->getTelefonoFijo(), 'TelefMovil' => $persona->getTelefonoMovil()]);
+                'Direccion' => $persona->getDireccion(), 'ReferenciasLocali' => $persona->getReferenciasLocali()
+                , 'TelefFijo' => $persona->getTelefonoFijo(), 'TelefMovil' => $persona->getTelefonoMovil()]);
     }
 
-    public function  eliminarAnimalPorID($id)
+    public function  eliminarPersonaPorID($id)
     {
         DB::table('persona')
             ->where('IdPersona', $id)

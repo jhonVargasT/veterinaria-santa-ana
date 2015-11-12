@@ -18,29 +18,50 @@ class ServiceAnimal extends Controller
     {
 
         $animales = DB::select('select * from Animal WHERE Activado = 1');
+        for($i=0;$i<count($animales);$i++)
+        {
+            $animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+                $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
+            $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
+            $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
 
-        return $animales;
+        }
+
+        return $animal;
     }
 
     public function listarAnimalesDeCliente($idCliente)
     {
-        $animales = DB::select('select * from Animal WHERE Activado = ?', [$idCliente]);
-        return $animales;
+        $animales = DB::select('select * from Animal WHERE Cliente_idCLiente = ?', [$idCliente]);
+        for($i=0;$i<count($animales);$i++)
+        {
+            $animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+                $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
+                $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
+                $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
+
+        }
+        return $animal;
     }
 
     public function obtenerAnimal($idAnimal)
     {
-        $animal = DB::table('animal')->where('idAnimal', $idAnimal)->first();
+        $animales = DB::table('animal')->where('idAnimal', $idAnimal)->first();
+        $animal=new Animal($animales->IdAnimal,$animales->Nombre,$animales->Sexo,
+            $animales->Esterilizacion,$animales->FechaDeNacimiento,$animales->Estado,
+            $animales->Codigo,$animales->observacion,$animales->Color,$animales->Pedigree,
+            $animales->NumPedigree,$animales->Raza_idRaza,$animales->Cliente_idCliente);
         return $animal;
     }
 
     public function obtenerAnimalNombre($nombre)
     {
-        ;
-        $result = DB::table('animal')->where('Nombre', $nombre)->first();
-        //  Especie $especie=new Especie());
-        return $result;
-
+        $animales = DB::table('animal')->where('Nombre', $nombre)->first();
+        $animal=new Animal($animales->IdAnimal,$animales->Nombre,$animales->Sexo,
+            $animales->Esterilizacion,$animales->FechaDeNacimiento,$animales->Estado,
+            $animales->Codigo,$animales->observacion,$animales->Color,$animales->Pedigree,
+            $animales->NumPedigree,$animales->Raza_idRaza,$animales->Cliente_idCliente);
+        return $animal;
     }
 
     public function agregarAnimal(Animal $animal)

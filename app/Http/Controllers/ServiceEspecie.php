@@ -25,21 +25,30 @@ class  ServiceEspecie extends Controller
     public function listar()
     {
         $especies = DB::select('select * from especie WHERE Activado = 1');
-        return $especies;
+        for($i=0;$i<count($especies); $i++)
+        {
+            $especie[$i]=new Especie($especies[$i]->idEspecie,$especies[$i]->Nombre,
+                $especies[$i]->Tipo,$especies[$i]->Descripcion,$especies[$i]->TipoDePiel);
+        }
+        return $especie;
+
     }
 
     public function obtenerEspecie($idEspecie)
     {
-        $especie = DB::table('especie')->where('idEspecie', $idEspecie)->first();
+        $especies = DB::table('especie')->where('idEspecie', $idEspecie)->first();
+        $especie=new Especie( $especies->idEspecie, $especies->Nombre,
+            $especies->Tipo, $especies->Descripcion, $especies->TipoDePiel);
         return $especie;
     }
 
     public function obtenerEspecieNombre($nombre)
     {
-        ;
-        $result = DB::table('especie')->where('Nombre', $nombre)->first();
 
-        return $result;
+        $especies = DB::table('especie')->where('Nombre', $nombre)->first();
+        $especie=new Especie( $especies->idEspecie, $especies->Nombre,
+            $especies->Tipo, $especies->Descripcion, $especies->TipoDePiel);
+        return $especie;
 
     }
 

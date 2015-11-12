@@ -9,8 +9,6 @@
 namespace App\Http\Controllers;
 
 
-
-
 class ServiceRaza extends Controller
 {
 
@@ -18,62 +16,69 @@ class ServiceRaza extends Controller
     {
     }
 
-    public function listar()
+    public function listaRaza()
     {
-        $raza= DB::select('select * from Raza WHERE Activado = 1');
-        return $raza;
+        $raza = DB::select('select * from Raza WHERE Activado = 1');
+        for ($i = 0; $i < count($raza); $i++) {
+            $Razas[$i] = new Raza($raza[i]->idRaza, $raza->Nombre,
+                $raza->EstiloDePelo, $raza->Especie_idEspecie);
+        }
+        return $Razas;
     }
 
     public function obtenerRaza($idRaza)
     {
-        $raza=DB::table('raza')->where('idRaza',$idEspecie)->first();
-        return $raza;
+        $raza = DB::table('raza')->where('idRaza', $idRaza)->first();
+
+        return $razas = new Raza($raza->idRaza, $raza->Nombre,
+            $raza->EstiloDePelo, $raza->Especie_idEspecie);
     }
 
     public function obtenerRazaNombre($nombre)
     {
-        ;
-        $result=DB::table('raza')->where('Nombre',$nombre)->first();
+
+        $raza = DB::table('raza')->where('Nombre', $nombre)->first();
         //  Especie $especie=new Especie());
-        return $result;
+        return $razas = new Raza($raza->idRaza, $raza->Nombre,
+            $raza->EstiloDePelo, $raza->Especie_idEspecie);
 
     }
 
-    public function agregarRaza(Raza  $raza)
+    public function agregarRaza(Raza $raza)
     {
         $count = DB::table('raza')->max('idRaza');
-        $count;
-        // agregar una especie la columna activado es para eliminar(no se elimina el registro solo
-        //cambia su estado)
+
         DB::table('raza')->insert(
-            ['idRaza' =>$count+1,'Especie_idEspecie'=>$raza->getIdEspecie(),
-                'Nombre'=>$raza->getNombreRaza(),
-                'EstiloDePelo'=>$raza->getEstiloPiel(),'Activado'=>1
+            ['idRaza' => $count + 1, 'Especie_idEspecie' => $raza->getIdEspecie(),
+                'Nombre' => $raza->getNombreRaza(),
+                'EstiloDePelo' => $raza->getEstiloPiel(), 'Activado' => 1
             ]
         );
 
     }
 
-    public function modificarRaza(Raza  $raza)
+    public function modificarRaza(Raza $raza)
     {
 
-       DB::table('raza')
+        DB::table('raza')
             ->where('idRaza', $raza->getIdRaza())
-            ->update(['Especie_idEspecie'=>$raza->getIdEspecie(),
-                'Nombre'=>$raza->getNombreRaza(),
-                'EstiloDePelo'=>$raza->getEstiloPiel()]);
+            ->update(['Especie_idEspecie' => $raza->getIdEspecie(),
+                'Nombre' => $raza->getNombreRaza(),
+                'EstiloDePelo' => $raza->getEstiloPiel()]);
     }
-    public function  eliminarRazaPorID( $id)
+
+    public function  eliminarRazaPorID($id)
     {
         DB::table('raza')
             ->where('idRaza', $id)
-            ->update(['Activado'=>0]);
+            ->update(['Activado' => 0]);
     }
-    public function  eliminarRazaPorNombre( $nombre)
+
+    public function  eliminarRazaPorNombre($nombre)
     {
-       DB::table('raza')
+        DB::table('raza')
             ->where('Nombre', $nombre)
-            ->update(['Activado'=>0]);
+            ->update(['Activado' => 0]);
 
     }
 

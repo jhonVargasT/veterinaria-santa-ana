@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 
 class prueba extends Controller
 {
-    public  $persona;
+    public  $cliente;
 
     /**
      * prueba constructor.
@@ -19,12 +19,16 @@ class prueba extends Controller
      */
     public function __construct()
     {
-        $this->persona = new ServicePersona();
+        $this->cliente = new ServiceCliente();
     }
     public function prueba()
     {
+       $cliente = $this->cliente->listarClientes();
+       for($i=0;$i<count($cliente);$i++)
+       {
+        echo $cliente[$i]->getIdCliente(). $cliente[$i]->getNombre();
+       }
 
-        $this->persona->listar();
     }
 
 

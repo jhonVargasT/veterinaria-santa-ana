@@ -14,31 +14,11 @@ class ControlCliente extends controller
     /**
      * ControlCliente constructor.
      */
-    public function __construct()
-    {
-    }
-
-    public  function listarClientes()
-    {
-        return null;
-    }
-
-    public function buscarClienteNombre($nombre)
-    {
-        return null;
-    }
-
-    /**
-     * @param $busca un cliente por el documento de identificacion
-     */
-    public function buscarClienteDocIdent($DocIdent)
-    {
-        return null;
-    }
-
-    public function buscarCLientePorAnimal($NombreAnimal)
-    {
-
-        return null;
-    }
+    function _Construct(){}
+    public function listarClientes(){}
+    public function buscarClienteNombre($nombre){}
+    public function buscarClienteDni($dni){}
+    public function buscarPorAnimal(){}
+    public function nuevoCliente(){}
+    public function eliminarUsuario(){}
 }

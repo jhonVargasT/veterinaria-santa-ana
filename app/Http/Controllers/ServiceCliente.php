@@ -8,61 +8,71 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 
 class ServiceCliente extends controller
 {
-     private $servicePersona;
+    private $servicePersona;
+
     public function __construct()
     {
-        $this->servicePersona= new ServicePersona();
+        $this->servicePersona = new ServicePersona();
     }
 
     public function listarClientes()
     {
 
         $clientes = DB::select('select * from cliente WHERE Activado = 1');
-        for($i=0;$i<count($clientes);$i++)
-            {
-                $persona=$this->servicePersona->obtenerPersona($clientes[$i]->Persona_IdPersona);
-                $cliente[$i]=new Cliente($clientes[$i]->idCliente,$clientes[$i]->FechaAfiliacion,
-                    $clientes[$i]->ComoConoce,$clientes[$i]->Foto,$clientes[$i]->Persona_IdPersona,
-                    $persona->getNombre(),$persona->getApellido(),$persona->getSexo(),
-                    $persona->getDocuIdent(),$persona->getFechaNacimiento(),$persona->getEmail()
-                    ,$persona->getCiudad(),$persona->getDireccion(),$persona->getReferenciasLocali(),
-                    $persona->getTelefonoMovil(),$persona->getTelefonoFijo());
+        $persona = $this->servicePersona->obtenerPersona(2);
+        $persona->getIdPersona();
+        for ($i = 0; $i < count($clientes); $i++) {
+            $persona = $this->servicePersona->obtenerPersona(2);
+            $cliente[$i] = new Cliente($clientes[$i]->idCliente, $clientes[$i]->FechaAfiliacion,
+                $clientes[$i]->ComoConoce, $clientes[$i]->Foto, $clientes[$i]->Persona_IdPersona,
+                $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
+                $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
+                , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
+                $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
+        }
 
-            }
+        return $cliente;
+    }
+
+
+    public function obtenerCliente($idCliente)
+    {
+
+        $clientes = DB::table('cliente')->where('idCliente', $idCliente)->first();
+        $persona = $this->servicePersona->obtenerPersona($clientes->idCliente);
+        $cliente = new Cliente($clientes->idCliente, $clientes->FechaAfiliacion,
+            $clientes->ComoConoce, $clientes->Foto, $clientes->Persona_IdPersona,
+            $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
+            $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
+            , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
+            $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
+        return $cliente;
+    }
+
+    public function obtenerClientePorNombre($nombre)
+    {
+
+        $clientes = DB::table('cliente')->where('Nombre', $nombre)->first();
+        $persona = $this->servicePersona->obtenerPersona($clientes->idCliente);
+        $cliente = new Cliente($clientes->idCliente, $clientes->FechaAfiliacion,
+            $clientes->ComoConoce, $clientes->Foto, $clientes->Persona_IdPersona,
+            $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
+            $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
+            , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
+            $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
         return $cliente;
 
     }
 
-    public function listarAnimalesDeCliente($idCliente)
-    {
-        $especies = DB::select('select * from cliente WHERE Activado = ?', [$idCliente]);
-        return $especies;
-    }
-
-    public function obtenerAnimal($idAnimal)
-    {
-        $animal = DB::table('animal')->where('idAnimal', $idAnimal)->first();
-        return $animal;
-    }
-
-    public function obtenerAnimalNombre($nombre)
-    {
-        ;
-        $result = DB::table('animal')->where('Nombre', $nombre)->first();
-        //  Especie $especie=new Especie());
-        return $result;
-
-    }
-
-    public function agregarAnimal(Animal $animal)
+    public function agregarCliente(Animal $animal)
     {
         $count = DB::table('animal')->max('idAnimal');
         $count;
-        // agregar una especie la columna activado es para eliminar(no se elimina el registro solo
-        //cambia su estado)
+
         DB::table('animal')->insert(
             ['idAnimal' => $count + 1, 'Codigo' => $animal->getCodigo(),
                 'Nombre' => $animal->getNombre(), 'Sexo' => $animal->getSexo(),

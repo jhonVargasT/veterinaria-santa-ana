@@ -11,10 +11,17 @@ abstract class  ControlAnimal extends Controller
 {
 
 
-    /**
-     * ControlAnimal constructor.
-     */
+
     public function __construct()
     {
+
+
     }
+
+    public function  listarAnimales($dniCliente){}
+    public function  buscarAnimal(){}
+    public function editarAnimal(){}
+    public function nuevoAnimal(){}
+    public function eliminarAnimal(){}
+
 }

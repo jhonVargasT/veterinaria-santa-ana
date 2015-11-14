@@ -31,7 +31,7 @@ class ServicePersona extends Controller
                 $persona[$i]->Ciudad,$persona[$i]->Direccion,$persona[$i]->ReferenciasLocali,
                 $persona[$i]->TelefFijo,$persona[$i]->TelefMovil);
         }
-        return $Personas;
+         return $Personas;
     }
 
     public function obtenerPersona($idpersona)

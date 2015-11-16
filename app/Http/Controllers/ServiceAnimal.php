@@ -7,7 +7,7 @@
  * Time: 2:21 PM
  */
 namespace App\Http\Controllers;
-
+use DB;
 class ServiceAnimal extends Controller
 {
     public function __construct()
@@ -20,14 +20,14 @@ class ServiceAnimal extends Controller
         $animales = DB::select('select * from Animal WHERE Activado = 1');
         for($i=0;$i<count($animales);$i++)
         {
-            $animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+            $Animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
                 $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
             $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
             $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
 
         }
 
-        return $animal;
+        return $Animal;
     }
 
     public function listarAnimalesDeCliente($idCliente)
@@ -35,13 +35,13 @@ class ServiceAnimal extends Controller
         $animales = DB::select('select * from Animal WHERE Cliente_idCLiente = ?', [$idCliente]);
         for($i=0;$i<count($animales);$i++)
         {
-            $animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+            $Animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
                 $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
                 $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
                 $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
 
         }
-        return $animal;
+        return $Animal;
     }
 
     public function obtenerAnimal($idAnimal)
@@ -104,7 +104,7 @@ class ServiceAnimal extends Controller
             ->update(['Activado' => 0]);
     }
 
-    public function  eliminarEspeciePorNombre($nombre)
+    public function  eliminarAnimalPorNombre($nombre)
     {
         DB::table('animal')
             ->where('Nombre', $nombre)

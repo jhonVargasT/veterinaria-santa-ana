@@ -9,16 +9,61 @@
 namespace App\Http\Controllers;
 class ControlCliente extends controller
 {
-
+    public $cliente;
+    public $animal;
 
     /**
-     * ControlCliente constructor.
+     * prueba constructor.
+     * @param $persona
      */
-    function _Construct(){}
-    public function listarClientes(){}
-    public function buscarClienteNombre($nombre){}
-    public function buscarClienteDni($dni){}
-    public function buscarPorAnimal(){}
-    public function nuevoCliente(){}
-    public function eliminarUsuario(){}
+    public function __construct()
+    {
+        $this->cliente = new ServiceCliente();
+        $this->animal = new ServiceAnimal();
+    }
+
+    public function listarClientes()
+    {
+        $cliente = $this->cliente->listarClientes();
+        for ($i = 0; $i < count($cliente); $i++) {
+            echo $cliente[$i]->getIdCliente() . $cliente[$i]->getNombre() . $cliente[$i]->getFechaDeAfiliacion();
+        }
+
+    }
+    // obtiene datos de Cliente y persona
+    //tiene un metodo donde hace llamado a los datos de la persona ServiceCliente| obtenerCliente
+
+    public function  obtenerClientePorId($id)
+    {
+        $cliente = $this->cliente->obtenerCliente($id);
+        echo $cliente->getCiudad(), $cliente->getTelefonoFijo();
+    }
+
+    public function obtenerClientePorNombre($nombre)
+    {
+        return $cliente = $this->cliente->obtenerClientePorNombre($nombre);
+    }
+
+    public function  obtenerClientePorDni($dniCliente)
+    {
+        return $cliente = $this->cliente->obtenerClientePorDNI($dniCliente);
+    }
+
+    public function buscarClientePorAnimal($idAnimal)
+    {
+        $anim=$this->animal->obtenerAnimal($idAnimal);
+        $clientes=$this->cliente->obtenerCliente($anim->getIdCliente());
+        return $clientes;
+    }
+
+    public function nuevoCliente(Cliente $cliente)
+    {
+        $this->cliente->agregarCliente($cliente);
+    }
+
+    public function eliminarCliente($idCliente)
+    {
+        $this->eliminarCliente($idCliente);
+    }
+
 }

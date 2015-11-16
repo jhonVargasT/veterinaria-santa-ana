@@ -14,4 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prueba','prueba@prueba');
+Route::get('/cliente/obtenerClientePorId/{id}','ControlCliente@obtenerClientePorId');
+Route::get('/cliente/obtenerClientePorNombre/{nombre}','ControlCliente@obtenerClientePorNombre');
+Route::get('/cliente/obtenerClientePorDni','ControlCliente@obtenerClientePorDni');
+//rout::get('',);

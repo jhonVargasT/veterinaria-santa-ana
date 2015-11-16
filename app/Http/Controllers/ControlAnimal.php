@@ -7,21 +7,29 @@
  * Time: 4:48 PM
  */
 namespace App\Http\Controllers;
-abstract class  ControlAnimal extends Controller
+use BD;
+class  ControlAnimal extends Controller
 {
+    private $serviceAnimal;
+    private $serviceEspecie;
+    private $serviceRaza;
 
-
-
-    public function __construct()
+    function __construct()
     {
-
-
+        $this->serviceAnimal=new ServiceAnimal();
+        $this->serviceEspecie=new ServiceEspecie();
+        $this->serviceRaza=new ServiceRaza();
     }
 
-    public function  listarAnimales($dniCliente){}
-    public function  buscarAnimal(){}
+    public function  listarAnimales()
+    {
+      return  $animal=$this->serviceAnimal->listarAnimalesDeCliente(1);
+    }
+
+    /*public function  buscarAnimal()
+    {}
     public function editarAnimal(){}
     public function nuevoAnimal(){}
-    public function eliminarAnimal(){}
+    public function eliminarAnimal(){}*/
 
 }

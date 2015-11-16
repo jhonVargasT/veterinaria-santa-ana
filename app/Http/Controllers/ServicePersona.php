@@ -55,6 +55,16 @@ class ServicePersona extends Controller
             $personas->TelefFijo, $personas->TelefMovil);
         return $persona;
     }
+    public function obtenerPersonaDocIdent($dni)
+    {
+
+        $personas = DB::table('persona')->where('DocIdent', $dni)->first();
+        $persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
+            $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
+            $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
+            $personas->TelefFijo, $personas->TelefMovil);
+        return $persona;
+    }
 
     public function agregarPersona(Persona $persona)
     {

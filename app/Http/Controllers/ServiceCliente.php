@@ -23,10 +23,11 @@ class ServiceCliente extends controller
     {
 
         $clientes = DB::select('select * from cliente WHERE Activado = 1');
-        $persona = $this->servicePersona->obtenerPersona(2);
-        $persona->getIdPersona();
+        //  $persona = $this->servicePersona->obtenerPersona(2);
+        // $persona->getIdPersona();
         for ($i = 0; $i < count($clientes); $i++) {
-            $persona = $this->servicePersona->obtenerPersona(2);
+
+            $persona = $this->servicePersona->obtenerPersona($i + 1);
             $cliente[$i] = new Cliente($clientes[$i]->idCliente, $clientes[$i]->FechaAfiliacion,
                 $clientes[$i]->ComoConoce, $clientes[$i]->Foto, $clientes[$i]->Persona_IdPersona,
                 $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
@@ -55,62 +56,77 @@ class ServiceCliente extends controller
 
     public function obtenerClientePorNombre($nombre)
     {
-
-        $clientes = DB::table('cliente')->where('Nombre', $nombre)->first();
-        $persona = $this->servicePersona->obtenerPersona($clientes->idCliente);
+        $personas = $this->servicePersona->obtenerPersonaNombre($nombre);
+        $clientes = DB::table('cliente')->where('idCliente', $personas->getIdPersona())->first();
         $cliente = new Cliente($clientes->idCliente, $clientes->FechaAfiliacion,
             $clientes->ComoConoce, $clientes->Foto, $clientes->Persona_IdPersona,
-            $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
-            $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
-            , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
-            $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
+            $personas->getNombre(), $personas->getApellido(), $personas->getSexo(),
+            $personas->getDocuIdent(), $personas->getFechaNacimiento(), $personas->getEmail()
+            , $personas->getCiudad(), $personas->getDireccion(), $personas->getReferenciasLocali(),
+            $personas->getTelefonoMovil(), $personas->getTelefonoFijo());
         return $cliente;
 
     }
 
-    public function agregarCliente(Animal $animal)
+    public function obtenerClientePorDNI($docIdentidad)
     {
-        $count = DB::table('animal')->max('idAnimal');
-        $count;
+        $personas = $this->servicePersona->obtenerPersonaDocIdent($docIdentidad);
+        $clientes = DB::table('cliente')->where('idCliente', $personas->getIdPersona())->first();
+        $cliente = new Cliente($clientes->idCliente, $clientes->FechaAfiliacion,
+            $clientes->ComoConoce, $clientes->Foto, $clientes->Persona_IdPersona,
+            $personas->getNombre(), $personas->getApellido(), $personas->getSexo(),
+            $personas->getDocuIdent(), $personas->getFechaNacimiento(), $personas->getEmail()
+            , $personas->getCiudad(), $personas->getDireccion(), $personas->getReferenciasLocali(),
+            $personas->getTelefonoMovil(), $personas->getTelefonoFijo());
+        return $cliente;
 
-        DB::table('animal')->insert(
-            ['idAnimal' => $count + 1, 'Codigo' => $animal->getCodigo(),
-                'Nombre' => $animal->getNombre(), 'Sexo' => $animal->getSexo(),
-                'Esterilizacion' => $animal->getEsterilizacion(), 'FechaDeNacimiento' => $animal
-                ->getFechaNacimiento(), 'Estado' => $animal->getEstado(),
-                'Observacion' => $animal->getObservacion(), 'Color' => $animal->getColor()
-                , 'Pedigree' => $animal->getPedigree(), 'NumPedigree' => $animal->getNumPedigree(),
-                'Cliente_idCliente' => $animal->getIdCliente(), 'Raza_idRaza' => $animal->getIdraza(),
-                'Activado' => 1
-            ]
+    }
+
+    public function agregarCliente(Cliente $cliente)
+    {
+        $count = DB::table('cliente')->max('idCliente');
+        $count;
+        $cliente->setIdPersona($count);
+        $this->servicePersona->agregarPersona(new Persona($cliente->getIdPersona(), $cliente->getNombre(), $cliente->getApellido(),
+            $cliente->getSexo(), $cliente->getDocuIdent(), $cliente->getFechaNacimiento(), $cliente->getEmail(), $cliente->getCiudad(),
+            $cliente->getDireccion(), $cliente->getReferenciasLocali(), $cliente->getTelefonoFijo(), $cliente->getTelefonoMovil()));
+
+        DB::table('cliente')->insert(['idCliente' => $count, 'FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
+                'ComoConoce' => $cliente->getComoConoce(), 'Foto' => $cliente->getFoto(),
+                'Persona_IdPersona' => $cliente->getIdPersona(), 'Activado' => 1]
         );
 
     }
 
-    public function modificarAnimal(Animal $animal)
+    public function modificarCliente(Cliente $cliente)
     {
-        DB::table('animal')
-            ->where('idAnimal', $animal->getIdAnimal())
-            ->update(['Codigo' => $animal->getCodigo(),
-                'Nombre' => $animal->getNombre(), 'Sexo' => $animal->getSexo(),
-                'Esterilizacion' => $animal->getEsterilizacion(), 'FechaDeNacimiento' => $animal
-                    ->getFechaNacimiento(), 'Estado' => $animal->getEstado(),
-                'Observacion' => $animal->getObservacion(), 'Color' => $animal->getColor()
-                , 'Pedigree' => $animal->getPedigree(), 'NumPedigree' => $animal->getNumPedigree(),
-                'Cliente_idCliente' => $animal->getIdCliente(), 'Raza_idRaza' => $animal->getIdraza()]);
+        $this->servicePersona->modificarPersona(new Persona($cliente->getIdPersona(),
+            $cliente->getNombre(), $cliente->getApellido(),
+            $cliente->getSexo(), $cliente->getDocuIdent(), $cliente->getFechaNacimiento(),
+            $cliente->getEmail(), $cliente->getCiudad(),
+            $cliente->getDireccion(), $cliente->getReferenciasLocali(), $cliente->getTelefonoFijo(),
+            $cliente->getTelefonoMovil()));
+        DB::table('cliente')
+            ->where('idCliente', $cliente->getIdCliente())
+            ->update(['FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
+                'ComoConoce' => $cliente->getComoConoce(), 'Foto' => $cliente->getFoto(),
+                'Persona_IdPersona' => $cliente->getIdPersona()]);
     }
 
-    public function  eliminarAnimalPorID($id)
+    public function  eliminarClientePorID($id)
     {
-        DB::table('animal')
-            ->where('idAnimal', $id)
+        $this->servicePersona->eliminarPersonaPorID($id);
+        DB::table('cliente')
+            ->where('idCliente', $id)
             ->update(['Activado' => 0]);
     }
 
-    public function  eliminarEspeciePorNombre($nombre)
+    public function  eliminarClientePorNombre($nombre)
     {
-        DB::table('animal')
-            ->where('Nombre', $nombre)
+        $persona = $this->obtenerClientePorNombre($nombre);
+
+        DB::table('cliente')
+            ->where('idCliente', $persona->getIdPersona())
             ->update(['Activado' => 0]);
 
     }

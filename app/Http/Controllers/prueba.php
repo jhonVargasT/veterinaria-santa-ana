@@ -21,12 +21,13 @@ class prueba extends Controller
     {
         $this->cliente = new ServiceCliente();
     }
-    public function prueba()
+
+    public function listarClientes()
     {
        $cliente = $this->cliente->listarClientes();
        for($i=0;$i<count($cliente);$i++)
        {
-        echo $cliente[$i]->getIdCliente(). $cliente[$i]->getNombre();
+        echo $cliente[$i]->getIdCliente(). $cliente[$i]->getNombre().$cliente[$i]->getFechaDeAfiliacion();
        }
 
     }

@@ -21,13 +21,10 @@ class ControlCliente extends controller
         $this->cliente = new ServiceCliente();
         $this->animal = new ServiceAnimal();
     }
-
+//lista todos los clientes de la BD
     public function listarClientes()
     {
-        $cliente = $this->cliente->listarClientes();
-        for ($i = 0; $i < count($cliente); $i++) {
-            echo $cliente[$i]->getIdCliente() . $cliente[$i]->getNombre() . $cliente[$i]->getFechaDeAfiliacion();
-        }
+      return  $cliente = $this->cliente->listarClientes();
 
     }
     // obtiene datos de Cliente y persona

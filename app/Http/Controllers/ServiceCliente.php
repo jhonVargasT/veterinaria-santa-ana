@@ -23,11 +23,11 @@ class ServiceCliente extends controller
     {
 
         $clientes = DB::select('select * from cliente WHERE Activado = 1');
-        //  $persona = $this->servicePersona->obtenerPersona(2);
+       // $persona = $this->servicePersona->obtenerPersona(2);
         // $persona->getIdPersona();
         for ($i = 0; $i < count($clientes); $i++) {
 
-            $persona = $this->servicePersona->obtenerPersona($i + 1);
+            $persona = $this->servicePersona->obtenerPersona($i+1);
             $cliente[$i] = new Cliente($clientes[$i]->idCliente, $clientes[$i]->FechaAfiliacion,
                 $clientes[$i]->ComoConoce, $clientes[$i]->Foto, $clientes[$i]->Persona_IdPersona,
                 $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),

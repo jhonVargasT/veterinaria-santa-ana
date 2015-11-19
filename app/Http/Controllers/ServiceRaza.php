@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Controllers;
-
+use App\Raza;
 
 class ServiceRaza extends Controller
 {

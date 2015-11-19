@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 use DB;
+use App\Animal;
 class ServiceAnimal extends Controller
 {
     public function __construct()

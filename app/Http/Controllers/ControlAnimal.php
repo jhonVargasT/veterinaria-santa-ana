@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 use BD;
+use App\Animal;
 class  ControlAnimal extends Controller
 {
     private $serviceAnimal;

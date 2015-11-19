@@ -7,6 +7,8 @@
  * Time: 4:48 PM
  */
 namespace App\Http\Controllers;
+use App\Cliente;
+use App\Animal;
 class ControlCliente extends controller
 {
     public $cliente;
@@ -24,6 +26,7 @@ class ControlCliente extends controller
 //lista todos los clientes de la BD
     public function listarClientes()
     {
+
       return  $cliente = $this->cliente->listarClientes();
 
     }

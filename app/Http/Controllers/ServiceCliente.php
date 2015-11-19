@@ -9,7 +9,8 @@
 namespace App\Http\Controllers;
 
 use DB;
-
+use App\Cliente;
+Use App\Persona;
 class ServiceCliente extends controller
 {
     private $servicePersona;

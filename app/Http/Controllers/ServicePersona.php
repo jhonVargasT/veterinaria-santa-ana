@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 use DB;
-
+use App\Persona;
 
 class ServicePersona extends Controller
 {

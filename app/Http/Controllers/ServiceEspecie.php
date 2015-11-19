@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 use DB;
-
+use App\Especie;
 class  ServiceEspecie extends Controller
 
 {

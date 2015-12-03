@@ -6,9 +6,9 @@
  * Time: 1:10 PM
  */
 
-namespace App\Http\Controllers;
+namespace App;
 
-
+use App\Http\Controllers\Controller;
 class Raza extends controller
 {
     public $idRaza;

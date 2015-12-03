@@ -17,4 +17,5 @@ Route::get('/', function () {
 Route::get('/cliente/obtenerClientePorId/{id}','ControlCliente@obtenerClientePorId');
 Route::get('/cliente/obtenerClientePorNombre/{nombre}','ControlCliente@obtenerClientePorNombre');
 Route::get('/cliente/obtenerClientePorDni','ControlCliente@obtenerClientePorDni');
+Route::get('/prueba/{nombre}','ServicePersona@obtenerPersonaNombre');
 //rout::get('',);

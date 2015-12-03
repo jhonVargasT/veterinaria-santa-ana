@@ -6,7 +6,8 @@
  * Date: 4/11/2015
  * Time: 10:55 PM
  */
-namespace App\Http\Controllers;
+namespace App;
+
 class Cliente extends Persona
 {
     private $idCliente;

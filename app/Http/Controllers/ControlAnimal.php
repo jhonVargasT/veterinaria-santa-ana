@@ -26,7 +26,8 @@ class  ControlAnimal extends Controller
 
     public function  listarAnimales()
     {
-      return  $animal=$this->serviceAnimal->listarAnimalesDeCliente(1);
+        return $animal=$this->serviceAnimal->listar();
+
     }
 
     public function obtenerAnimal($idCliente)

@@ -24,6 +24,7 @@ class  ServiceEspecie extends Controller
 
     public function listar()
     {
+        $especie=array();
         $especies = DB::select('select * from especie WHERE Activado = 1');
         for($i=0;$i<count($especies); $i++)
         {

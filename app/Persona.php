@@ -6,7 +6,9 @@
  * Date: 4/11/2015
  * Time: 10:45 PM
  */
-namespace App\Http\Controllers;
+namespace App;
+use App\Http\Controllers\Controller;
+
 class Persona extends controller
 {
     public $idPersona;

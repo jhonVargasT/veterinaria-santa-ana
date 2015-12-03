@@ -35,8 +35,8 @@ class ControlCliente extends controller
 
     public function  obtenerClientePorId($id)
     {
-        $cliente = $this->cliente->obtenerCliente($id);
-        echo $cliente->getCiudad(), $cliente->getTelefonoFijo();
+       return $cliente = $this->cliente->obtenerCliente($id);
+
     }
 
     public function obtenerClientePorNombre($nombre)

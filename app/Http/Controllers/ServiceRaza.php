@@ -18,6 +18,7 @@ class ServiceRaza extends Controller
 
     public function listaRaza()
     {
+        $Razas=array();
         $raza = DB::select('select * from Raza WHERE Activado = 1');
         for ($i = 0; $i < count($raza); $i++) {
             $Razas[$i] = new Raza($raza[i]->idRaza, $raza->Nombre,

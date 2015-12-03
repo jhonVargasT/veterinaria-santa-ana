@@ -22,7 +22,7 @@ class ServicePersona extends Controller
     //retorna una arreglo
     public function listar()
     {
-
+        $Personas = array();
         $persona = DB::select('select * from persona WHERE Activado = 1');
         for($i=0;$i<count($persona);$i++){
             $Personas[$i]= new Persona($persona[$i]->IdPersona,$persona[$i]->Nombre,
@@ -32,6 +32,7 @@ class ServicePersona extends Controller
                 $persona[$i]->TelefFijo,$persona[$i]->TelefMovil);
         }
          return $Personas;
+
     }
 
     public function obtenerPersona($idpersona)
@@ -47,13 +48,25 @@ class ServicePersona extends Controller
 
     public function obtenerPersonaNombre($nombre)
     {
-
-        $personas = DB::table('persona')->where('Nombre', $nombre)->first();
-        $persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
+        $Personas = array();
+       //$personas = DB::table('persona')->where('Nombre','Like','%jh%');
+      $persona =DB::select('select * from persona WHERE Nombre LIKE \'%'+$nombre+'%\'');
+        for($i=0;$i<count($persona);$i++){
+            $Personas[$i]= new Persona($persona[$i]->IdPersona,$persona[$i]->Nombre,
+                $persona[$i]->Apellido,$persona[$i]->Sexo,$persona[$i]->DocIdent,
+                $persona[$i]->FechaNac,$persona[$i]->Email,
+                $persona[$i]->Ciudad,$persona[$i]->Direccion,$persona[$i]->ReferenciasLocali,
+                $persona[$i]->TelefFijo,$persona[$i]->TelefMovil);
+       }
+        /*$persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
             $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
             $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
-            $personas->TelefFijo, $personas->TelefMovil);
-        return $persona;
+            $personas->TelefFijo, $personas->TelefMovil);*/
+       for($i=0;$i<count($Personas);$i++)
+       {
+            echo $Personas[1]->getNombre().$Personas[1]->getApellido();
+        }
+      //  echo $persona->getNombre().$persona->getApellido();
     }
     public function obtenerPersonaDocIdent($dni)
     {

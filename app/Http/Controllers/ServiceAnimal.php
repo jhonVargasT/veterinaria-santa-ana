@@ -17,18 +17,18 @@ class ServiceAnimal extends Controller
 
     public function listar()
     {
-
+        $animal=array();
         $animales = DB::select('select * from Animal WHERE Activado = 1');
+
         for($i=0;$i<count($animales);$i++)
         {
-            $Animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+            $animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
                 $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
             $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
             $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
 
         }
-
-        return $Animal;
+        $animal->getnombre();
     }
 
     public function listarAnimalesDeCliente($idCliente)
@@ -57,12 +57,18 @@ class ServiceAnimal extends Controller
 
     public function obtenerAnimalNombre($nombre)
     {
-        $animales = DB::table('animal')->where('Nombre', $nombre)->first();
-        $animal=new Animal($animales->IdAnimal,$animales->Nombre,$animales->Sexo,
-            $animales->Esterilizacion,$animales->FechaDeNacimiento,$animales->Estado,
-            $animales->Codigo,$animales->observacion,$animales->Color,$animales->Pedigree,
-            $animales->NumPedigree,$animales->Raza_idRaza,$animales->Cliente_idCliente);
-        return $animal;
+        $Animal=array();
+        $animales = DB::table('animal')->where('Nombre','LIKE','$'.$nombre)->first();
+        for($i=0;$i<count($animales);$i++)
+        {
+            $Animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
+                $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
+                $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
+                $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
+
+        }
+
+        return $Animal;
     }
 
     public function agregarAnimal(Animal $animal)

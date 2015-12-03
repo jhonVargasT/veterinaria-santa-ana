@@ -6,7 +6,9 @@
  * Date: 5/11/2015
  * Time: 11:59 AM
  */
-namespace App\Http\Controllers;
+
+namespace App;
+use App\Http\Controllers\Controller;
 class Animal extends controller
 {
     private $idAnimal;
@@ -22,21 +24,8 @@ class Animal extends controller
     private $numPedigree;
     private $idraza;
     private $idCliente;
- /* Animal constructor.
- * @param $idAnimal
- * @param $nombre
- * @param $sexo
- * @param $esterilizacion
- * @param $fechaNacimiento
- * @param $estado
- * @param $codigo
- * @param $observacion
- * @param $color
- * @param $pedigree
- * @param $numPedigree
- * @param $idraza
- * @param $idCliente
- */public function __construct($idAnimal, $nombre, $sexo, $esterilizacion, $fechaNacimiento, $estado, $codigo, $observacion, $color, $pedigree, $numPedigree, $idraza, $idCliente)
+
+public function __construct($idAnimal, $nombre, $sexo, $esterilizacion, $fechaNacimiento, $estado, $codigo, $observacion, $color, $pedigree, $numPedigree, $idraza, $idCliente)
 {
     $this->idAnimal = $idAnimal;
     $this->nombre = $nombre;
@@ -51,57 +40,39 @@ class Animal extends controller
     $this->numPedigree = $numPedigree;
     $this->idraza = $idraza;
     $this->idCliente = $idCliente;
-}/**
- * @return mixed
- */
+}
 public function getIdAnimal()
 {
     return $this->idAnimal;
-}/**
- * @param mixed $idAnimal
- */
+}
 public function setIdAnimal($idAnimal)
 {
     $this->idAnimal = $idAnimal;
-}/**
- * @return mixed
- */
+}
 public function getNombre()
 {
     return $this->nombre;
-}/**
- * @param mixed $nombre
- */
+}
 public function setNombre($nombre)
 {
     $this->nombre = $nombre;
-}/**
- * @return mixed
- */
+}
 public function getSexo()
 {
     return $this->sexo;
-}/**
- * @param mixed $sexo
- */
+}
 public function setSexo($sexo)
 {
     $this->sexo = $sexo;
-}/**
- * @return mixed
- */
+}
 public function getEsterilizacion()
 {
     return $this->esterilizacion;
-}/**
- * @param mixed $esterilizacion
- */
+}
 public function setEsterilizacion($esterilizacion)
 {
     $this->esterilizacion = $esterilizacion;
-}/**
- * @return mixed
- */
+}
 public function getFechaNacimiento()
 {
     return $this->fechaNacimiento;

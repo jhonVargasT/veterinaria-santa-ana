@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Cliente;
 Use App\Persona;
+
 class ServiceCliente extends controller
 {
     private $servicePersona;
@@ -22,13 +23,11 @@ class ServiceCliente extends controller
 
     public function listarClientes()
     {
-
+        $cliente = array();
         $clientes = DB::select('select * from cliente WHERE Activado = 1');
-       // $persona = $this->servicePersona->obtenerPersona(2);
-        // $persona->getIdPersona();
         for ($i = 0; $i < count($clientes); $i++) {
 
-            $persona = $this->servicePersona->obtenerPersona($i+1);
+            $persona = $this->servicePersona->obtenerPersona($i);
             $cliente[$i] = new Cliente($clientes[$i]->idCliente, $clientes[$i]->FechaAfiliacion,
                 $clientes[$i]->ComoConoce, $clientes[$i]->Foto, $clientes[$i]->Persona_IdPersona,
                 $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
@@ -86,7 +85,6 @@ class ServiceCliente extends controller
     public function agregarCliente(Cliente $cliente)
     {
         $count = DB::table('cliente')->max('idCliente');
-        $count;
         $cliente->setIdPersona($count);
         $this->servicePersona->agregarPersona(new Persona($cliente->getIdPersona(), $cliente->getNombre(), $cliente->getApellido(),
             $cliente->getSexo(), $cliente->getDocuIdent(), $cliente->getFechaNacimiento(), $cliente->getEmail(), $cliente->getCiudad(),

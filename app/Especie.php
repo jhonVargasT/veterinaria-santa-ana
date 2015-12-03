@@ -6,9 +6,9 @@
  * Time: 12:25 PM
  */
 
-namespace App\Http\Controllers;
+namespace App;
 
-
+use App\Http\Controllers\Controller;
 class Especie extends Controller
 {
     public $idEspecie;

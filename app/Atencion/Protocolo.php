@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Atencion;
 /**
  * Created by PhpStorm.
  * User: JhonVargasN72V

@@ -6,6 +6,7 @@
  * Date: 3/12/2015
  * Time: 2:12 PM
  */
+namespace App\Atencion;
 class Tratamiento
 {
     private $idTratamiento;

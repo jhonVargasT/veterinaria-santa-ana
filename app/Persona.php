@@ -7,6 +7,7 @@
  * Time: 10:45 PM
  */
 namespace App;
+
 use App\Http\Controllers\Controller;
 
 class Persona extends controller

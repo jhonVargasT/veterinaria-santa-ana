@@ -7,8 +7,8 @@
  * Time: 2:21 PM
  */
 namespace App\Http\Controllers;
-use DB;
 use App\Animal;
+use DB;
 class ServiceAnimal extends Controller
 {
     public function __construct()
@@ -19,6 +19,7 @@ class ServiceAnimal extends Controller
     {
         $animal=array();
         $animales = DB::select('select * from Animal WHERE Activado = 1');
+
 
         for($i=0;$i<count($animales);$i++)
         {

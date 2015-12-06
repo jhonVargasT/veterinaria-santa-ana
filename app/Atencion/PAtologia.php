@@ -20,10 +20,9 @@ class PAtologia
      * @param $nombrePatologia
      * @param $desripcionPatologia
      */
-    public function __construct($nombrePatologia, $desripcionPatologia)
+    public function __construct()
     {
-        $this->nombrePatologia = $nombrePatologia;
-        $this->desripcionPatologia = $desripcionPatologia;
+
     }
 
     /**

@@ -59,17 +59,21 @@ class ServiceAnimal extends Controller
     public function obtenerAnimalNombre($nombre)
     {
         $Animal=array();
-        $animales = DB::table('animal')->where('Nombre','LIKE','$'.$nombre)->first();
-        for($i=0;$i<count($animales);$i++)
+        try {
+            $animales = DB::select("SELECT * FROM animal where Nombre LIKE '%$nombre%' ");
+            for ($i = 0; $i < count($animales); $i++) {
+                $Animal[$i] = new Animal($animales[$i]->IdAnimal, $animales[$i]->Nombre, $animales->Sexo,
+                    $animales[$i]->Esterilizacion, $animales[$i]->FechaDeNacimiento, $animales[$i]->Estado,
+                    $animales[$i]->Codigo, $animales[$i]->observacion, $animales[$i]->Color, $animales[$i]->Pedigree,
+                    $animales[$i]->NumPedigree, $animales[$i]->Raza_idRaza, $animales[$i]->Cliente_idCliente);
+
+            }
+
+            return $Animal;
+        }catch (Exception $e)
         {
-            $Animal[$i]=new Animal($animales[$i]->IdAnimal,$animales[$i]->Nombre,$animales->Sexo,
-                $animales[$i]->Esterilizacion,$animales[$i]->FechaDeNacimiento,$animales[$i]->Estado,
-                $animales[$i]->Codigo,$animales[$i]->observacion,$animales[$i]->Color,$animales[$i]->Pedigree,
-                $animales[$i]->NumPedigree,$animales[$i]->Raza_idRaza,$animales[$i]->Cliente_idCliente);
-
+            return null;
         }
-
-        return $Animal;
     }
 
     public function agregarAnimal(Animal $animal)

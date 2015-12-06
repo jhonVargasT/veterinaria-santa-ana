@@ -68,13 +68,13 @@ class ServicePatologia extends Controller
      */
     public function obtenerPatologias()
     {
-       $patologia=array();
+        $patologia = array();
         try {
-            $result= DB::select('select IdPatologia,NombrePatologia from Patologia
+            $result = DB::select('select IdPatologia,NombrePatologia from Patologia
                       WHERE Activado = 1');
 
-            for($i=0;$i<count($result);$i++){
-                $patologia[$i]=new Patologia();
+            for ($i = 0; $i < count($result); $i++) {
+                $patologia[$i] = new Patologia();
                 $patologia[$i]->setIdPatologia($result[$i]->IdPatologia);
                 $patologia[$i]->setNombrePatologia($result[$i]->NombrePatologia);
             }
@@ -84,25 +84,24 @@ class ServicePatologia extends Controller
             return null;
         }
     }
-
-    public function buscarPatologiaPorNombre()
+// devuelve una patologia por su respectivo nombre
+    public function buscarPatologiaPorNombre($nombre)
     {
-        $patologia=array();
-        try {
-            $result= DB::select('SELECT * FROM bd_vsa.patologia where NombrePatologia LIKE \'%fie%\'');
 
-            for($i=0;$i<count($result);$i++){
-                $patologia[$i]=new Patologia();
+        $patologia = array();
+        try {
+            $result = DB::select("SELECT * FROM patologia
+                          where NombrePatologia LIKE '%$nombre%'");
+
+            for ($i = 0; $i < count($result); $i++) {
+                $patologia[$i] = new Patologia();
                 $patologia[$i]->setIdPatologia($result[$i]->IdPatologia);
                 $patologia[$i]->setNombrePatologia($result[$i]->NombrePatologia);
             }
 
-            For ($i;$i<count($result);$i++)
-            {
-                echo $patologia[i]->getIdPatologia();
-            }
+           return $patologia;
         } catch (Exception $e) {
-            return null;
+           return null;
         }
     }
 

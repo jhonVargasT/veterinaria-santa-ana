@@ -48,35 +48,45 @@ class ServicePersona extends Controller
 
     public function obtenerPersonaNombre($nombre)
     {
+
         $Personas = array();
-       //$personas = DB::table('persona')->where('Nombre','Like','%jh%');
-      $persona =DB::select('select * from persona WHERE Nombre LIKE \'%'+$nombre+'%\'');
-        for($i=0;$i<count($persona);$i++){
-            $Personas[$i]= new Persona($persona[$i]->IdPersona,$persona[$i]->Nombre,
-                $persona[$i]->Apellido,$persona[$i]->Sexo,$persona[$i]->DocIdent,
-                $persona[$i]->FechaNac,$persona[$i]->Email,
-                $persona[$i]->Ciudad,$persona[$i]->Direccion,$persona[$i]->ReferenciasLocali,
-                $persona[$i]->TelefFijo,$persona[$i]->TelefMovil);
-       }
-        /*$persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
-            $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
-            $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
-            $personas->TelefFijo, $personas->TelefMovil);*/
-       for($i=0;$i<count($Personas);$i++)
-       {
-            echo $Personas[1]->getNombre().$Personas[1]->getApellido();
+
+        try {
+            $persona = DB::select("SELECT * FROM persona where Nombre LIKE '%$nombre%' ");
+            for ($i = 0; $i < count($persona); $i++) {
+                $Personas[$i] = new Persona($persona[$i]->IdPersona, $persona[$i]->Nombre,
+                    $persona[$i]->Apellido, $persona[$i]->Sexo, $persona[$i]->DocIdent,
+                    $persona[$i]->FechaNac, $persona[$i]->Email,
+                    $persona[$i]->Ciudad, $persona[$i]->Direccion, $persona[$i]->ReferenciasLocali,
+                    $persona[$i]->TelefFijo, $persona[$i]->TelefMovil);
+            }
+
+           return $Personas;
+        }catch (\mysqli_sql_exception $e)
+        {
+            return null;
         }
-      //  echo $persona->getNombre().$persona->getApellido();
     }
     public function obtenerPersonaDocIdent($dni)
     {
 
-        $personas = DB::table('persona')->where('DocIdent', $dni)->first();
-        $persona = new Persona($personas->IdPersona,$personas->Nombre, $personas->Apellido,
-            $personas->Sexo, $personas->DocIdent, $personas->FechaNac,
-            $personas->Email, $personas->Ciudad, $personas->Direccion, $personas->ReferenciasLocali,
-            $personas->TelefFijo, $personas->TelefMovil);
-        return $persona;
+        $Personas = array();
+
+        try {
+            $persona = DB::select("SELECT * FROM persona where DocIdent LIKE '%$dni%' ");
+            for ($i = 0; $i < count($persona); $i++) {
+                $Personas[$i] = new Persona($persona[$i]->IdPersona, $persona[$i]->Nombre,
+                    $persona[$i]->Apellido, $persona[$i]->Sexo, $persona[$i]->DocIdent,
+                    $persona[$i]->FechaNac, $persona[$i]->Email,
+                    $persona[$i]->Ciudad, $persona[$i]->Direccion, $persona[$i]->ReferenciasLocali,
+                    $persona[$i]->TelefFijo, $persona[$i]->TelefMovil);
+            }
+
+            return $Personas;
+        }catch (\mysqli_sql_exception $e)
+        {
+            return null;
+        }
     }
 
     public function agregarPersona(Persona $persona)

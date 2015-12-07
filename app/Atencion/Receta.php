@@ -22,10 +22,9 @@ class Receta
      * @param $descripcion
      * @param $fechaReceta
      */
-    public function __construct($descripcion, $fechaReceta)
+    public function __construct()
     {
-        $this->descripcion = $descripcion;
-        $this->fechaReceta = $fechaReceta;
+
     }
 
     /**

@@ -99,7 +99,7 @@ class ServicePatologia extends Controller
                 $patologia[$i]->setNombrePatologia($result[$i]->NombrePatologia);
             }
 
-           return $patologia;
+           return $patologia[1]->getNombrePatologia();
         } catch (Exception $e) {
            return null;
         }

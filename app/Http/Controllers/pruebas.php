@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 use App\Atencion\Apunte;
+use App\Atencion\Documento;
 use App\Atencion\Receta;
 use App\Http\Controllers\Controller;
 use App\Atencion\Patologia;
@@ -18,22 +19,19 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceApunte();
+        $this->service=new ServiceDocumento();
     }
 
     public function agregar()
     {
-        $apunte=new Apunte();
-        $apunte->setDescripcion("2wpoeoqeasdwqe");
-        $apunte->setIdAnimal(1);
-        $apunte->setFechaApunte('1992-12-05');
-        $apunte->setIdPersonal(1);
-        $apunte->setIdApunte(3);
+        $doc=new Documento();
+        $doc->setTipoDocumento('fafitas');
+        $doc->setUbicacionDocunemto('wqewqe/wqeqwe');
+        $doc->setIdAnimal(1);
+        $doc->setIdPersonal(1);
+        $doc->setIdDocumento(2);
 
-        $result=$this->service->mostrarApuntesFecha('1','1992-12-15');
-
-
-           echo $result->getDescripcion()."  ".$result->getFechaApunte();
+        echo $this->service->eliminarDocumento(1);
 
 
     }

@@ -26,13 +26,9 @@ class Documento
      * @param $idAnimal
      * @param $idPersonal
      */
-    public function __construct($idDocumento, $tipoDocumento, $ubicacionDocunemto, $idAnimal, $idPersonal)
+    public function __construct()
     {
-        $this->idDocumento = $idDocumento;
-        $this->tipoDocumento = $tipoDocumento;
-        $this->ubicacionDocunemto = $ubicacionDocunemto;
-        $this->idAnimal = $idAnimal;
-        $this->idPersonal = $idPersonal;
+
     }
 
     /**

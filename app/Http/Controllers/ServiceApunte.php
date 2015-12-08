@@ -117,18 +117,19 @@ class ServiceApunte extends Controller
                 ->first();
 
                 $apunte=new Apunte();
-                $apunte->setIdApunte($array->IdApunte);
+               $apunte->setIdApunte($array->IdApunte);
                 $apunte->setFechaApunte($array->FechaApunte);
                 $apunte->setDescripcion($array->Descripcion);
                 $apunte->setIdAnimal($array->IdAnimal);
                 $apunte->setIdPersonal($array->IdPersonal);
 
             return $apunte;
-
-        } catch (Exception $e) {
-            return null;
+        } catch (mysqli_sql_exception $e) {
+            return $e;
         }
     }
+
+
 
 
 }

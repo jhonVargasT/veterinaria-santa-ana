@@ -15,5 +15,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/prueba/{nombre}','ServicePatologia@buscarPatologiaPorNombre');
+Route::get('/prueba','pruebas@agregar');
 //rout::get('',);

@@ -7,6 +7,8 @@
  * Time: 4:23 PM
  */
 namespace App\Http\Controllers;
+use App\Atencion\Apunte;
+use App\Atencion\Receta;
 use App\Http\Controllers\Controller;
 use App\Atencion\Patologia;
 use Mockery\Exception;
@@ -16,23 +18,24 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServicePatologia();
+        $this->service=new ServiceApunte();
     }
 
-   /* public function agregar()
-    {
-
-        $patologia=new Patologia();
-        $patologia->setIdPatologia(1);
-       $patologia->setDesripcionPatologia("sad2asg3");
-        $patologia->setNombrePatologia("1231223");
-        echo $this->service->editarPatologia($patologia);
-
-    }*/
     public function agregar()
     {
+        $apunte=new Apunte();
+        $apunte->setDescripcion("2wpoeoqeasdwqe");
+        $apunte->setIdAnimal(1);
+        $apunte->setFechaApunte('1992-12-05');
+        $apunte->setIdPersonal(1);
+        $apunte->setIdApunte(3);
 
-       $this->service->buscarPatologiaPorNombre();
+        $result=$this->service->mostrarApuntesFecha('1','1992-12-15');
+
+
+           echo $result->getDescripcion()."  ".$result->getFechaApunte();
+
+
     }
 
 

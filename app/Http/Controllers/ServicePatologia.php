@@ -39,9 +39,12 @@ class ServicePatologia extends Controller
     public function editarPatologia(Patologia $patologia)
     {
         try {
-            DB::table('patologia')->where(['IdPatologia' => $patologia->getIdPatologia()])
-                ->update(['NombrePatologia' => $patologia->getNombrePatologia(),
-                    'DescripcionPatologia' => $patologia->getDesripcionPatologia()
+            DB::table('patologia')->where(['IdPatologia' => $patologia
+                ->getIdPatologia()])
+                ->update(['NombrePatologia' =>
+                    $patologia->getNombrePatologia(),
+                    'DescripcionPatologia' =>
+                        $patologia->getDesripcionPatologia()
                 ]);
             return true;
         } catch (Exception $e) {
@@ -66,7 +69,7 @@ class ServicePatologia extends Controller
      * @param $idPatologia
      * @return bool
      */
-    public function obtenerPatologias()
+    public function mostrarNombresPatologias()
     {
         $patologia = array();
         try {
@@ -84,8 +87,9 @@ class ServicePatologia extends Controller
             return null;
         }
     }
+
 // devuelve una patologia por su respectivo nombre
-    public function buscarPatologiaPorNombre($nombre)
+    public function mostrarPatologiaPorNombre($nombre)
     {
 
         $patologia = array();
@@ -97,12 +101,31 @@ class ServicePatologia extends Controller
                 $patologia[$i] = new Patologia();
                 $patologia[$i]->setIdPatologia($result[$i]->IdPatologia);
                 $patologia[$i]->setNombrePatologia($result[$i]->NombrePatologia);
+                $patologia[$i]->setDesripcionPatologia($result[$i]->DescripcionPatologia);
             }
 
-           return $patologia[1]->getNombrePatologia();
+            return $patologia;
         } catch (Exception $e) {
-           return null;
+            return null;
         }
     }
+
+    public function mostrarPatologiaID($idPatologia)
+    {
+
+        try {
+            $result = DB::table('patologia')->where('IdPatologia', $idPatologia)->first();
+
+            $patologia = New Patologia();
+            $patologia->setIdPatologia($result->IdPatologia);
+            $patologia->setNombrePatologia($result->NombrePatologia);
+            $patologia->setDesripcionPatologia($result->DescripcionPatologia);
+            return $patologia;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+
 
 }

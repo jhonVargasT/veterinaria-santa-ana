@@ -19,18 +19,11 @@ class Apunte
 
     /**
      * Apunte constructor.
-     * @param $idApunte
-     * @param $fechaApunte
-     * @param $descripcion
-     * @param $idAnimal
-     * @param $idPersonal
      */
-    public function __construct($fechaApunte, $descripcion)
+    public function __construct()
     {
-        $this->fechaApunte = $fechaApunte;
-        $this->descripcion = $descripcion;
-
     }
+
 
     /**
      * @return mixed

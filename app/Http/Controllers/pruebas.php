@@ -26,7 +26,7 @@ class pruebas extends Controller
         $log->setDescripcion('asdasdasd');
         $log->setIdAnimal(1);
         $log->setIdLog(2);
-        echo $this->service->eliminarLog(1);
+        $this->service->mostrarLogAnimal(1);
 
 
     }

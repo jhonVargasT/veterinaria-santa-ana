@@ -64,18 +64,47 @@ class ServiceLog extends Controller
 
     public function mostrarLogAnimal($idAnimal)
     {
-        $result=array();
+        $log = array();
         try {
-            $result=DB::table('log')->where('IdAnimal',$idAnimal)
-                ->where('Activado',1)-get();
-            for($i=0;$i<count($result);$i++)
-            {
-                $log=new Log();
+            $result = DB::table('log')->where('IdAnimal', $idAnimal)
+                ->where('Activado', 1)->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $log[$i] = new Log();
                 $log[$i]->setIdLog($result[$i]->IdLog);
-
+                $log[$i]->setFechaLog($result[$i]->FechaLog);
+                $log[$i]->setTipoLog($result[$i]->TipoLog);
+                $log[$i]->setDescripcion($result[$i]->DescripcionLog);
+                $log[$i]->setIdAnimal($result[$i]->IdAnimal);
             }
+
+            return $log;
+
         } catch (Exception $e) {
+            return null;
         }
+    }
+
+    public function mostrarTodosLog()
+    {
+        $log = array();
+        try {
+            $result = DB::table('log')
+                ->where('Activado', 1)->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $log[$i] = new Log();
+                $log[$i]->setIdLog($result[$i]->IdLog);
+                $log[$i]->setFechaLog($result[$i]->FechaLog);
+                $log[$i]->setTipoLog($result[$i]->TipoLog);
+                $log[$i]->setDescripcion($result[$i]->DescripcionLog);
+                $log[$i]->setIdAnimal($result[$i]->IdAnimal);
+            }
+
+            return $log;
+
+        } catch (Exception $e) {
+            return null;
+        }
+
     }
 
 }

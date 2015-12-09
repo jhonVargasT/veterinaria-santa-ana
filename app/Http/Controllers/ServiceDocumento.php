@@ -12,7 +12,7 @@ use App\Atencion\Documento;
 
 use DB;
 
-class ServiceDocumento
+class ServiceDocumento extends Controller
 {
 
 
@@ -61,20 +61,57 @@ class ServiceDocumento
         }
     }
 
-    public function obtenerDocumentos($idAnimal)
+    public function obtenerDocumentosAnimal($idAnimal)
     {
-        $documento=array();
+        $documento = array();
         try {
-            $result=DB::table('documento')->get();
+            $result = DB::table('documento')->where(['IdAnimal' => $idAnimal])
+                ->where('Activado',1)
+                ->get();
 
-            for($i=0;$i<count($result);$i++){
+            for ($i = 0; $i < count($result); $i++) {
 
-                $documento[$i]=new Documento();
+                $documento[$i] = new Documento();
+                $documento[$i]->setIdDocumento($result[$i]->IdDocumento);
+                $documento[$i]->setTipoDocumento($result[$i]->TipoDeDocumento);
+                $documento[$i]->setUbicacionDocunemto($result[$i]->UbicacionDocumento);
+                $documento[$i]->setIdAnimal($result[$i]->IdAnimal);
+                $documento[$i]->setIdPersonal($result[$i]->IdPersonal);
 
             }
+
+            return $documento;
 
         } catch (mysqli_sql_exception $e) {
             return null;
         }
     }
+
+    public function obtenerDocumentosPersonal($idPersonal)
+    {
+        $documento = array();
+        try {
+            $result = DB::table('documento')->where('IdPersonal', $idPersonal)
+                ->where('Activado',1)->get();
+
+            for ($i = 0; $i < count($result); $i++) {
+
+                $documento[$i] = new Documento();
+                $documento[$i]->setIdDocumento($result[$i]->IdDocumento);
+                $documento[$i]->setTipoDocumento($result[$i]->TipoDeDocumento);
+                $documento[$i]->setUbicacionDocunemto($result[$i]->UbicacionDocumento);
+                $documento[$i]->setIdAnimal($result[$i]->IdAnimal);
+                $documento[$i]->setIdPersonal($result[$i]->IdPersonal);
+
+            }
+
+
+            return $documento;
+
+        } catch (mysqli_sql_exception $e) {
+            return null;
+        }
+    }
+
+
 }

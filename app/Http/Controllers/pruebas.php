@@ -7,11 +7,7 @@
  * Time: 4:23 PM
  */
 namespace App\Http\Controllers;
-use App\Atencion\Apunte;
-use App\Atencion\Documento;
-use App\Atencion\Receta;
-use App\Http\Controllers\Controller;
-use App\Atencion\Patologia;
+use App\Atencion\Log;
 use Mockery\Exception;
 
 class pruebas extends Controller
@@ -19,19 +15,18 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceDocumento();
+        $this->service=new ServiceLog();
     }
 
     public function agregar()
     {
-        $doc=new Documento();
-        $doc->setTipoDocumento('fafitas');
-        $doc->setUbicacionDocunemto('wqewqe/wqeqwe');
-        $doc->setIdAnimal(1);
-        $doc->setIdPersonal(1);
-        $doc->setIdDocumento(2);
-
-        echo $this->service->eliminarDocumento(1);
+        $log=new Log();
+        $log->setFechaLog('2000-11-25');
+        $log->setTipoLog('ahk');
+        $log->setDescripcion('asdasdasd');
+        $log->setIdAnimal(1);
+        $log->setIdLog(2);
+        echo $this->service->eliminarLog(1);
 
 
     }

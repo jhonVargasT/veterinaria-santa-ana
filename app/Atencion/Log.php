@@ -23,11 +23,8 @@ class Log
      * @param $tipoLog
      * @param $descripcion
      */
-    public function __construct($fechaLog, $tipoLog, $descripcion)
+    public function __construct()
     {
-        $this->fechaLog = $fechaLog;
-        $this->tipoLog = $tipoLog;
-        $this->descripcion = $descripcion;
     }
 
     /**

@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 use App\Atencion\Log;
+use App\Atencion\TipoAnalisis;
 use Mockery\Exception;
 
 class pruebas extends Controller
@@ -15,18 +16,22 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceLog();
+        $this->service=new ServiceTipoAnalisis();
     }
 
     public function agregar()
     {
-        $log=new Log();
-        $log->setFechaLog('2000-11-25');
-        $log->setTipoLog('ahk');
-        $log->setDescripcion('asdasdasd');
-        $log->setIdAnimal(1);
-        $log->setIdLog(2);
-        $this->service->mostrarLogAnimal(1);
+        $tip=new TipoAnalisis();
+        $tip->setDescripcion("asdasd21");
+        $tip->setIdTipoAnalisis(1);
+        $tip->setNombre('Vacuna');
+
+        $result=$this->service->obetnerTipoAnalisis(2);
+
+
+          echo  $result->getNombre();
+
+
 
 
     }

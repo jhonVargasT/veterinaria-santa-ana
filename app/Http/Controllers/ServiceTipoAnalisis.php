@@ -25,23 +25,77 @@ class ServiceTipoAnalisis extends controller
     public function nuevoTipoAnalisis(TipoAnalisis $tipoAnalisis)
     {
         try {
-            DB::table('TipoAnalisis')
-                ->insert(['NombreTipoAnalisis' => $tipoAnalisis->getIdTipoAnalisis(),
-                    'Descripcion' => $tipoAnalisis->getIdTipoAnalisis()]);
+            DB::table('tipoanalisis')
+                ->insert(['NombreTipoAnalisis' => $tipoAnalisis->getNombre(),
+                    'Descripcion' => $tipoAnalisis->getDescripcion()]);
             return true;
-        } catch (mysqli_sql_exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
 
     }
 
-    public function editarTipoAnalisis()
+    public function editarTipoAnalisis(TipoAnalisis $tipoAnalisis)
     {
 
         try {
-
-        } catch (mysqli_sql_exception $e) {
+            DB::table('TipoAnalisis')->where('IdTipoAnalisis', $tipoAnalisis->getIdTipoAnalisis())
+                ->update(['NombreTipoAnalisis' => $tipoAnalisis->getNombre(),
+                    'Descripcion' => $tipoAnalisis->getDescripcion()]);
+            return true;
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
+    }
+
+    public function eliminarTipoAnalisis($idTipoAnalisis)
+    {
+        Try {
+            DB::table('Tipoanalisis')->where(['IdTipoAnalisis'=>$idTipoAnalisis])
+                ->update(['Activado'=> 0]);
+            return true;
+        } catch (\mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function obetnerTiposAnalisis()
+    {
+        $tipos=array();
+        try{
+            $result=DB::table('TipoAnalisis')->where('Activado',1)-> get();
+            for($i=0;$i<count($result);$i++)
+            {
+                $tipos[$i]=new TipoAnalisis();
+                $tipos[$i]-> setIdTipoAnalisis($result[$i]->IdTipoAnalisis);
+                $tipos[$i]->setNombre($result[$i]->NombreTipoAnalisis);
+
+            }
+            return $tipos;
+
+        }catch (\mysqli_sql_exception $e)
+        {
+            return false;
+        }
+    }
+
+    public function obetnerTipoAnalisis($idTipoAnalisis)
+    {
+        try{
+            $result=DB::table('TipoAnalisis')->where('Activado',1)->
+            where(['IdTipoAnalisis'=>$idTipoAnalisis])->first();
+
+                $tipo=new TipoAnalisis();
+                $tipo->setIdTipoAnalisis($result->IdTipoAnalisis);
+                $tipo-> setNombre($result->NombreTipoAnalisis);
+                $tipo->setDescripcion($result->Descripcion);
+
+            return $tipo;
+
+        }catch (\mysqli_sql_exception $e)
+        {
+            return null;
+        }
+
     }
 }

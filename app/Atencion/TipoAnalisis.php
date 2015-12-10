@@ -20,10 +20,8 @@ class TipoAnalisis
      * @param $nombre
      * @param $descripcion
      */
-    public function __construct($nombre, $descripcion)
+    public function __construct()
     {
-        $this->nombre = $nombre;
-        $this->descripcion = $descripcion;
     }
 
     /**

@@ -7,8 +7,10 @@
  * Time: 4:23 PM
  */
 namespace App\Http\Controllers;
+use App\Atencion\Analisis;
 use App\Atencion\Log;
 use App\Atencion\TipoAnalisis;
+use App\Atencion\TipoTratamiento;
 use Mockery\Exception;
 
 class pruebas extends Controller
@@ -16,22 +18,23 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceTipoAnalisis();
+        $this->service=new ServiceTipoTratamiento();
     }
 
     public function agregar()
     {
-        $tip=new TipoAnalisis();
-        $tip->setDescripcion("asdasd21");
-        $tip->setIdTipoAnalisis(1);
-        $tip->setNombre('Vacuna');
-
-        $result=$this->service->obetnerTipoAnalisis(2);
-
-
-          echo  $result->getNombre();
+        $tip=new TipoTratamiento();
+        $tip->setDescripcion('veneno');
+        $tip->setNombreTipoTratamiento('bala');
+        $tip->setIdTipoTratiemnto(2);
+         $result=$this->service->obtenerTiposTratamiento();
+          for($i=0;$i<count($result);$i++) {
+                echo $result[$i]->getNombreTipoTratamiento();
 
 
+            }
+      /*  $result=$this->service->obetnerTipoTratamiento(2);
+        echo $result->getDescripcion();*/
 
 
     }

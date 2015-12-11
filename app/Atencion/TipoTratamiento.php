@@ -17,10 +17,9 @@ class TipoTratamiento
      * @param $nombreTipoTratamiento
      * @param $descripcion
      */
-    public function __construct($nombreTipoTratamiento, $descripcion)
+    public function __construct()
     {
-        $this->nombreTipoTratamiento = $nombreTipoTratamiento;
-        $this->descripcion = $descripcion;
+
     }
 
 

@@ -23,10 +23,8 @@ class Analisis
      * @param $ubicacion
      * @param $fechaAnalisis
      */
-    public function __construct($ubicacion, $fechaAnalisis)
+    public function __construct()
     {
-        $this->ubicacion = $ubicacion;
-        $this->fechaAnalisis = $fechaAnalisis;
     }
 
     /**

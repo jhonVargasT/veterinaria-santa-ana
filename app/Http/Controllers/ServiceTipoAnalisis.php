@@ -67,11 +67,11 @@ class ServiceTipoAnalisis extends controller
             for($i=0;$i<count($result);$i++)
             {
                 $tipos[$i]=new TipoAnalisis();
-                $tipos[$i]-> setIdTipoAnalisis($result[$i]->IdTipoAnalisis);
+                $tipos[$i]->setIdTipoAnalisis($result[$i]->IdTipoAnalisis);
                 $tipos[$i]->setNombre($result[$i]->NombreTipoAnalisis);
 
             }
-            return $tipos;
+          return $tipos;
 
         }catch (\mysqli_sql_exception $e)
         {
@@ -86,7 +86,7 @@ class ServiceTipoAnalisis extends controller
             where(['IdTipoAnalisis'=>$idTipoAnalisis])->first();
 
                 $tipo=new TipoAnalisis();
-                $tipo->setIdTipoAnalisis($result->IdTipoAnalisis);
+                $tipo->setIdTipoTratiemnto($result->IdTipoAnalisis);
                 $tipo-> setNombre($result->NombreTipoAnalisis);
                 $tipo->setDescripcion($result->Descripcion);
 

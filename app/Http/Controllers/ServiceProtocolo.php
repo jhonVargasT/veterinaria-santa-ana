@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Atencion\Protocolo;
 use Mockery\CountValidator\Exception;
-
+use DB;
 class ServiceProtocolo extends Controller
 {
 
@@ -60,20 +60,18 @@ class ServiceProtocolo extends Controller
         }
     }
 
-    public function mostrarProtocolos()
+    public function obtenerProtocolos()
     {
         $protocolo = array();
         try {
             $result = DB::table('protocolo')->where(['Activado' => 1])->get();
             for ($i = 0; $i < count($result); $i++) {
-                $protocolo[$i] = new TipoTratamiento();
+                $protocolo[$i] = new Protocolo();
                 $protocolo[$i]->setIdProtocolo($result[$i]->IdProtocolo);
                 $protocolo[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
                 $protocolo[$i]->setNombreProtocolo($result[$i]->NombreProtocolo);
                 $protocolo[$i]->setNroDosis($result[$i]->NroDosis);
-
             }
-
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {
             return null;
@@ -85,16 +83,13 @@ class ServiceProtocolo extends Controller
         $protocolo = array();
         try {
             $result = DB::table('protocolo')->where(['Activado' => 1])->
-            where('IdProtocolo', $idProtocolo)->get();
-            for ($i = 0; $i < count($result); $i++) {
-                $protocolo[$i] = new TipoTratamiento();
-                $protocolo[$i]->setIdProtocolo($result[$i]->IdProtocolo);
-                $protocolo[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
-                $protocolo[$i]->setNombreProtocolo($result[$i]->NombreProtocolo);
-                $protocolo[$i]->setNroDosis($result[$i]->NroDosis);
+            where('IdProtocolo', $idProtocolo)->first();
 
-            }
-
+                $protocolo = new Protocolo();
+                $protocolo->setIdProtocolo($result->IdProtocolo);
+                $protocolo->setIdTipoTratamiento($result->IdTipoTratamiento);
+                $protocolo->setNombreProtocolo($result->NombreProtocolo);
+                $protocolo->setNroDosis($result->NroDosis);
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {
             return null;
@@ -109,14 +104,12 @@ class ServiceProtocolo extends Controller
             $result = DB::select("SELECT * FROM protocolo where NombreProtocolo LIKE '%$nombreProtocolo%' ");
 
             for ($i = 0; $i < count($result); $i++) {
-                $protocolo[$i] = new TipoTratamiento();
+                $protocolo[$i] = new Protocolo();
                 $protocolo[$i]->setIdProtocolo($result[$i]->IdProtocolo);
                 $protocolo[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
                 $protocolo[$i]->setNombreProtocolo($result[$i]->NombreProtocolo);
                 $protocolo[$i]->setNroDosis($result[$i]->NroDosis);
-
             }
-
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {
             return null;

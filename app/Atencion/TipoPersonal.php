@@ -11,7 +11,7 @@ namespace App\Atencion;
 
 class TipoPersonal
 {
-    private $idTipoPersona;
+    private $idTipoPersonal;
     private $nombreTipoPersonal;
     private $descripcion;
 
@@ -21,27 +21,24 @@ class TipoPersonal
      * @param $nombreTipoPersonal
      * @param $descripcion
      */
-    public function __construct($idTipoPersona, $nombreTipoPersonal, $descripcion)
+    public function __construct()
     {
-        $this->idTipoPersona = $idTipoPersona;
-        $this->nombreTipoPersonal = $nombreTipoPersonal;
-        $this->descripcion = $descripcion;
     }
 
     /**
      * @return mixed
      */
-    public function getIdTipoPersona()
+    public function getIdTipoPersonal()
     {
-        return $this->idTipoPersona;
+        return $this->idTipoPersonal;
     }
 
     /**
      * @param mixed $idTipoPersona
      */
-    public function setIdTipoPersona($idTipoPersona)
+    public function setIdTipoPersonal($idTipoPersonal)
     {
-        $this->idTipoPersona = $idTipoPersona;
+        $this->idTipoPersonal = $idTipoPersonal;
     }
 
     /**

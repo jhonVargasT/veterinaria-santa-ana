@@ -18,10 +18,8 @@ class Protocolo
      * @param $nombreProtocolo
      * @param $nroDosis
      */
-    public function __construct($nombreProtocolo, $nroDosis)
+    public function __construct()
     {
-        $this->nombreProtocolo = $nombreProtocolo;
-        $this->nroDosis = $nroDosis;
     }
 
 

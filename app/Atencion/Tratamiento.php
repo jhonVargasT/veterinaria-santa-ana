@@ -31,16 +31,9 @@ class Tratamiento
      * @param $IdPersonal
      */
 
-    public function __construct($fechaProgramacion, $FechaAplicacion, $lote, $fechaAtencion, $laboratorio, $idTipoTratamiento, $idAnimal, $IdPersonal)
+    public function __construct()
     {
-        $this->fechaProgramacion = $fechaProgramacion;
-        $this->FechaAplicacion = $FechaAplicacion;
-        $this->lote = $lote;
-        $this->fechaAtencion = $fechaAtencion;
-        $this->laboratorio = $laboratorio;
-        $this->idTipoTratamiento = $idTipoTratamiento;
-        $this->idAnimal = $idAnimal;
-        $this->IdPersonal = $IdPersonal;
+
     }
 
 

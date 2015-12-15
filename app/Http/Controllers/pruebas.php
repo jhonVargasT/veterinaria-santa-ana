@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 use App\Atencion\Analisis;
 use App\Atencion\Log;
+use App\Atencion\Personal;
 use App\Atencion\Protocolo;
 use App\Atencion\TipoAnalisis;
 use App\Atencion\TipoPersonal;
@@ -21,18 +22,30 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceTipoPersonal();
+        $this->service=new ServicePersonal();
     }
 
     public function agregar()
     {
-        $tip=new TipoPersonal();
-        $tip->setNombreTipoPersonal('llimpia caca');
-        $tip->setDescripcion('lava gatos de mierda');
-        $tip->setIdTipoPersonal(1);
+        $per=new Personal();
+        $per->setDocuIdent('72978792');
+        $per->setNombre('Vanessa Jackeline');
+        $per->setApellido('Rojas Pajuelo');
+        $per->setSexo('f');
+        $per->setFechaNacimiento('1988-08-11');
+        $per->setEmail('Vanepanepansaderta@gmail.com');
+        $per->setCiudad('VAlentia');
+        $per->setDireccion('Las manzanas verdes');
+        $per->setReferenciasLocali('por la casita');
+        $per->setTelefonoFijo('950938108');
+        $per->setTelefonoMovil('459826');
+        $per->setPrivilegios('ptassecas');
+        $per->setUsuarioPersonal('Lavaca');
+        $per->setPaswoordPersonal('kjqwheq');
+        $per->setIdTipoPersonal(1);
+        $per->setIdPersona(2);
 
-        $result=$this->service->mostrarTipoPersonal(2);
-        echo $result->getNombreTipoPersonal().'<br>';
+        echo $this->service->nuevoPersonal($per);
     /* for($i=0;$i<count($result);$i++)
         {
             echo $result[$i]->getNombreTipoPersonal().'<br>';

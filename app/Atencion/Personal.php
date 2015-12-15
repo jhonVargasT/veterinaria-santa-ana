@@ -15,8 +15,24 @@ class Personal extends Persona
     private $privilegios;
     private $usuarioPersonal;
     private $paswoordPersonal;
-    private $idPersona;
+    private $fkidPersona;
     private $idTipoPersonal;
+
+    /**
+     * @return mixed
+     */
+    public function getFkidPersona()
+    {
+        return $this->fkidPersona;
+    }
+
+    /**
+     * @param mixed $fkidPersona
+     */
+    public function setFkidPersona($fkidPersona)
+    {
+        $this->fkidPersona = $fkidPersona;
+    }
 
     /**
      * Personal constructor.
@@ -27,22 +43,11 @@ class Personal extends Persona
      * @param $idPersona
      * @param $idTipoPersonal
      */
-    public function __construct($idPersonal, $privilegios, $usuarioPersonal, $paswoordPersonal, $idPersona, $idTipoPersonal,$idPersona,
-                                $nombre, $apellido, $sexo, $docuIdent,
-                                $fechaNacimiento, $email, $ciudad, $direccion,
-                                $referenciasLocali, $telefonoFijo, $telefonoMobil)
-    {
-        parent::__construct($idPersona, $nombre,
-            $apellido, $sexo, $docuIdent, $fechaNacimiento,
-            $email, $ciudad, $direccion, $referenciasLocali,
-            $telefonoFijo, $telefonoMobil);
 
-        $this->idPersonal = $idPersonal;
-        $this->privilegios = $privilegios;
-        $this->usuarioPersonal = $usuarioPersonal;
-        $this->paswoordPersonal = $paswoordPersonal;
-        $this->idPersona = $idPersona;
-        $this->idTipoPersonal = $idTipoPersonal;
+
+    public function __construct()
+    {
+
     }
 
     /**
@@ -109,21 +114,7 @@ class Personal extends Persona
         $this->paswoordPersonal = $paswoordPersonal;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIdPersona()
-    {
-        return $this->idPersona;
-    }
 
-    /**
-     * @param mixed $idPersona
-     */
-    public function setIdPersona($idPersona)
-    {
-        $this->idPersona = $idPersona;
-    }
 
     /**
      * @return mixed

@@ -24,11 +24,9 @@ class Atencion
      * @param $descripcion
      * @param $fechaAtencion
      */
-    public function __construct($resumen, $descripcion, $fechaAtencion)
+    public function __construct()
     {
-        $this->resumen = $resumen;
-        $this->descripcion = $descripcion;
-        $this->fechaAtencion = $fechaAtencion;
+
     }
 
     /**

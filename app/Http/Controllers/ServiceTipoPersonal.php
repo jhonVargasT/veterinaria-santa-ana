@@ -66,7 +66,8 @@ class ServiceTipoPersonal extends Controller
         $tipoPersonal = array();
         try {
             $result = DB::table('tipopersonal')->
-            where(['Activado' => 0])->get();
+            where(['Activado' => 0])
+                ->get();
             for ($i = 0; $i < count($result); $i++) {
                 $tipoPersonal[$i] = new TipoPersonal();
                 $tipoPersonal[$i]->setIdTipoPersonal($result[$i]->IdTipoPersonal);

@@ -15,7 +15,7 @@ class Retorno
     private $fechaRetorno;
     private $horaRetorno;
     private $observacion;
-    private $idAtencionl;
+    private $idAtencion;
     private $idTipoAtencion;
 
     /**
@@ -24,11 +24,8 @@ class Retorno
      * @param $horaRetorno
      * @param $observacion
      */
-    public function __construct($fechaRetorno, $horaRetorno, $observacion)
+    public function __construct()
     {
-        $this->fechaRetorno = $fechaRetorno;
-        $this->horaRetorno = $horaRetorno;
-        $this->observacion = $observacion;
     }
 
     /**
@@ -98,17 +95,17 @@ class Retorno
     /**
      * @return mixed
      */
-    public function getIdAtencionl()
+    public function getIdAtencion()
     {
-        return $this->idAtencionl;
+        return $this->idAtencion;
     }
 
     /**
      * @param mixed $idAtencionl
      */
-    public function setIdAtencionl($idAtencionl)
+    public function setIdAtencion($idAtencion)
     {
-        $this->idAtencionl = $idAtencionl;
+        $this->idAtencion = $idAtencion;
     }
 
     /**

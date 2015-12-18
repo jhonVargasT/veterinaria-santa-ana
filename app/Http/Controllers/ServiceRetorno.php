@@ -25,8 +25,9 @@ class ServiceRetorno extends Controller
                 ->insert(['FechaRetorno' =>
                     $retorno->getFechaRetorno(),
                     'HoraRetorno' => $retorno->getHoraRetorno(),
-                    'ObservacionRetorno' => $retorno->getObservacion()
-                    , 'IdAtencion' => $retorno->getIdAtencion()]);
+                    'ObservacionRetorno' => $retorno->getObservacion(),
+                    'IdAtencion' => $retorno->getIdAtencion(),
+                    'IdTipoAtencion' => $retorno->getIdTipoAtencion()]);
             return true;
         } catch (\Exception $e) {
             return false;
@@ -37,12 +38,15 @@ class ServiceRetorno extends Controller
     {
         try {
 
-            DB::table('retorno')->where(['IdRetorno' =>
+            DB::table('retorno')
+                ->where(['IdRetorno' =>
                 $retorno->getIdRetorno()])
                 ->update(['FechaRetorno' => $retorno->getFechaRetorno(),
                     'HoraRetorno' => $retorno->getHoraRetorno(),
-                    'ObservacionRetorno' => $retorno->getObservacion()
-                    , 'IdAtencion' => $retorno->getIdAtencion()]);
+                    'ObservacionRetorno' => $retorno->getObservacion(),
+                    'IdAtencion' => $retorno->getIdAtencion(),
+                    'IdTipoAtencion' => $retorno->getIdTipoAtencion()
+                ]);
             return true;
         } catch (\Exception $e) {
             return false;
@@ -53,8 +57,8 @@ class ServiceRetorno extends Controller
     {
         try {
 
-            DB::table('retorno')->where(['IdRetorno' =>$idRetorno])
-                ->update(['Activado'=>0]);
+            DB::table('retorno')->where(['IdRetorno' => $idRetorno])
+                ->update(['Activado' => 0]);
             return true;
         } catch (\Exception $e) {
             return false;
@@ -63,15 +67,14 @@ class ServiceRetorno extends Controller
 
     public function obtenerRetornos()
     {
-        $retorno=array();
+        $retorno = array();
         try {
-            $result=DB::table('retorno')->where(['Activado'=>1])->get();
-            for($i=0;$i<count($result);$i++)
-            {
-                $retorno[$i]=new Retorno();
+            $result = DB::table('retorno')->where(['Activado' => 1])->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $retorno[$i] = new Retorno();
                 $retorno[$i]->setIdRetorno($retorno[$i]->IdRetorno);
                 $retorno[$i]->setFechaRetorno($retorno[$i]->FechaRetorno);
-                $retorno[$i]->setHoraRetorno($retorno[$i]->HoraRetorno);
+                //$retorno[$i]->setHoraRetorno($retorno[$i]->HoraRetorno);
                 $retorno[$i]->setObservacion($retorno[$i]->ObservacionRetorno);
                 $retorno[$i]->setIdAtencion($retorno[$i]->IdAtencion);
             }
@@ -79,22 +82,40 @@ class ServiceRetorno extends Controller
             return false;
         }
     }
+    public function obtenerRetorno($idRetorno)
+    {
+
+        try {
+            $result = DB::table('retorno')
+                ->where('IdRetorno',$idRetorno)
+                ->where(['Activado' => 1])->get();
+            $retorno = new Retorno();
+            $retorno->setIdRetorno($result->IdRetorno);
+            $retorno->setFechaRetorno($result->FechaRetorno);
+            $retorno->setHoraRetorno($result->HoraRetorno);
+            $retorno->setObservacion($result->ObservacionRetorno);
+            $retorno->setIdAtencion($result->IdAtencion);
+            return $retorno;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
     public function obetnerRetornoAtencion($idAtencion)
     {
         try {
-            $result=DB::table('retorno')->where(['Activado'=>1])
-                ->where(['IdAtencion'=>$idAtencion])->get();
-
-                $retorno=new Retorno();
-                $retorno->setIdRetorno($retorno->IdRetorno);
-                $retorno->setFechaRetorno($retorno->FechaRetorno);
-                $retorno->setHoraRetorno($retorno->HoraRetorno);
-                $retorno->setObservacion($retorno->ObservacionRetorno);
-                $retorno->setIdAtencion($retorno->IdAtencion);
+            $result = DB::table('retorno')->where(['Activado' => 1])
+                ->where(['IdAtencion' => $idAtencion])->first();
+            $retorno = new Retorno();
+            $retorno->setIdRetorno($result->IdRetorno);
+            $retorno->setFechaRetorno($result->FechaRetorno);
+            $retorno->setHoraRetorno($result->HoraRetorno);
+            $retorno->setObservacion($result->ObservacionRetorno);
+            $retorno->setIdAtencion($result->IdAtencion);
+            return $retorno;
 
         } catch (\Exception $e) {
-            return false;
+            return null;
         }
     }
 

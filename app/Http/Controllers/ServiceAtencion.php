@@ -39,6 +39,7 @@ class ServiceAtencion
     {
         try {
             DB::table('atencion')
+                ->where('Activado',1)
                 ->where('IdAtencion', $atencion->getIdAtencion())
                 ->update(['ResumenAtencion' => $atencion->getResumen(),
                     'DescripcionAtencion' => $atencion->getDescripcion(),
@@ -66,7 +67,9 @@ class ServiceAtencion
     {
         $atencion = array();
         try {
-            $result = DB::table('atencion')->get();
+            $result = DB::table('atencion')
+                ->where('Activado',1)
+                ->get();
             for ($i = 0; $i < count($result); $i++) {
                 $atencion[$i] = new Atencion();
                 $atencion[$i]->setIdAtencion($result[$i]->IdAtencion);
@@ -84,11 +87,62 @@ class ServiceAtencion
         }
     }
 
+    public function obtenerAtencionesAnimal($idAnimal)
+    {
+        $atencion = array();
+        try {
+            $result = DB::table('atencion')
+                ->where('IdAnimal',$idAnimal)
+                ->where('Activado',1)
+                ->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $atencion[$i] = new Atencion();
+                $atencion[$i]->setIdAtencion($result[$i]->IdAtencion);
+                $atencion[$i]->setResumen($result[$i]->ResumenAtencion);
+                $atencion[$i]->setDescripcion($result[$i]->DescripcionAtencion);
+                $atencion[$i]->setFechaAtencion($result[$i]->FechaAtencion);
+                $atencion[$i]->setIdAnimal($result[$i]->IdAnimal);
+                $atencion[$i]->setIdPersonal($result[$i]->IdPersonal);
+                $atencion[$i]->setIdTipoAtencion($result[$i]->IdTipoAtencion);
+            }
+
+            return $atencion;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function obtenerAtencionesPersonal($idPersonal)
+    {
+        $atencion = array();
+        try {
+            $result = DB::table('atencion')
+                ->where('IdPersonal',$idPersonal)
+                ->where('Activado',1)
+                ->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $atencion[$i] = new Atencion();
+                $atencion[$i]->setIdAtencion($result[$i]->IdAtencion);
+                $atencion[$i]->setResumen($result[$i]->ResumenAtencion);
+                $atencion[$i]->setDescripcion($result[$i]->DescripcionAtencion);
+                $atencion[$i]->setFechaAtencion($result[$i]->FechaAtencion);
+                $atencion[$i]->setIdAnimal($result[$i]->IdAnimal);
+                $atencion[$i]->setIdPersonal($result[$i]->IdPersonal);
+                $atencion[$i]->setIdTipoAtencion($result[$i]->IdTipoAtencion);
+            }
+
+            return $atencion;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+
     public function obtenerAtencion($idAtencion)
     {
         try {
             $result = DB::table('atencion')
                 ->where('IdAtencion', $idAtencion)
+                ->where('Activado',1)
                 ->get();
             $atencion = new Atencion();
             $atencion->setIdAtencion($result->IdAtencion);

@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Atencion\Atencion;
-
+use DB;
 class ServiceAtencion
 {
 
@@ -29,6 +29,7 @@ class ServiceAtencion
                     'IdAnimal' => $atencion->getIdAnimal(),
                     'IdPersonal' => $atencion->getIdPersonal(),
                     'IdTipoAtencion' => $atencion->getIdTipoAtencion()]);
+            return true;
         } catch (\Exception $e) {
             return false;
         }
@@ -50,11 +51,11 @@ class ServiceAtencion
         }
     }
 
-    public function eliminarAtencion(Atencion $atencion)
+    public function eliminarAtencion($atencion)
     {
         try {
             DB::table('atencion')
-                ->where('IdAtencion', $atencion->getIdAtencion())
+                ->where('IdAtencion', $atencion)
                 ->update(['Activado' => 0]);
         } catch (\Exception $e) {
             return false;

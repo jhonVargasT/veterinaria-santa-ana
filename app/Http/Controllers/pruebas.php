@@ -7,14 +7,8 @@
  * Time: 4:23 PM
  */
 namespace App\Http\Controllers;
-use App\Atencion\Analisis;
-use App\Atencion\Log;
-use App\Atencion\Personal;
-use App\Atencion\Protocolo;
-use App\Atencion\TipoAnalisis;
-use App\Atencion\TipoPersonal;
-use App\Atencion\TipoTratamiento;
-use App\Atencion\Tratamiento;
+
+use App\Atencion\Atencion;
 use Mockery\Exception;
 
 class pruebas extends Controller
@@ -22,34 +16,33 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServicePersonal();
+        $this->service=new ServiceAtencion();
     }
 
     public function agregar()
     {
-        $per=new Personal();
-        $per->setDocuIdent('72978792');
-        $per->setNombre('Vanessa Jackeline');
-        $per->setApellido('Rojas Pajuelo');
-        $per->setSexo('f');
-        $per->setFechaNacimiento('1988-08-11');
-        $per->setEmail('Vanepanepansaderta@gmail.com');
-        $per->setCiudad('VAlentia');
-        $per->setDireccion('Las manzanas verdes');
-        $per->setReferenciasLocali('por la casita');
-        $per->setTelefonoFijo('950938108');
-        $per->setTelefonoMovil('459826');
-        $per->setPrivilegios('ptassecas');
-        $per->setUsuarioPersonal('Lavaca');
-        $per->setPaswoordPersonal('kjqwheq');
-        $per->setIdTipoPersonal(1);
-        $per->setIdPersona(2);
 
-        echo $this->service->nuevoPersonal($per);
-    /* for($i=0;$i<count($result);$i++)
+       /* $atencion=new Atencion();
+
+        $atencion->setIdAnimal(1);
+        $atencion->setDescripcion('asdasd');
+        $atencion->setIdTipoAtencion(1);
+        $atencion->setIdPersonal(1);
+        $atencion->setResumen('fafitas con arroz frito');
+        $atencion->setFechaAtencion('2000-11-04');
+        $atencion->setIdAtencion(1);
+
+        $this->service->eliminarAtencion(1);*/
+
+       $result= $this->service->obtenerAtenciones();
+
+        for($i=0;$i<count($result);$i++)
         {
-            echo $result[$i]->getNombreTipoPersonal().'<br>';
-        }*/
+           echo $result[$i]->getFechaAtencion();
+
+        }
+
+
     }
 
 

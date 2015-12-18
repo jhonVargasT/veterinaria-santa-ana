@@ -10,7 +10,8 @@ namespace App\Http\Controllers;
 
 
 use App\Atencion\TipoAtencion;
-use DD;
+use DB;
+
 class ServiceTipoAtencion
 {
     /**
@@ -26,7 +27,7 @@ class ServiceTipoAtencion
             DB::table('tipoatencion')
                 ->insert([
                     'NombreTipoAtencion' => $tipoAtencion->getNombre(),
-                    'DescripcionTipoAtencion' => $tipoAtencion->getDescripcion()
+                    'Descripcion' => $tipoAtencion->getDescripcion()
                 ]);
             return true;
         } catch (Exception $e) {
@@ -41,7 +42,7 @@ class ServiceTipoAtencion
                 ->where('IdTipoAtencion', $tipoAtencion->getIdTipoAtencion())
                 ->update([
                     'NombreTipoAtencion' => $tipoAtencion->getNombre(),
-                    'DescripcionTipoAtencion' => $tipoAtencion->getDescripcion()
+                    'Descripcion' => $tipoAtencion->getDescripcion()
                 ]);
             return true;
         } catch (Exception $e) {
@@ -49,7 +50,7 @@ class ServiceTipoAtencion
         }
     }
 
-    public function eliminarTipoAtencionl($idTipoAtencion)
+    public function eliminarTipoAtencion($idTipoAtencion)
     {
         try {
             DB::table('tipoatencion')->where('IdTipoAtencion', $idTipoAtencion)
@@ -65,7 +66,7 @@ class ServiceTipoAtencion
         $tipoAtencion = array();
         try {
             $result = DB::table('tipoatencion')->
-            where(['Activado' => 0])
+            where(['Activado' => 1])
                 ->get();
             for ($i = 0; $i < count($result); $i++) {
                 $tipoAtencion[$i] = new TipoAtencion();
@@ -77,20 +78,20 @@ class ServiceTipoAtencion
             return false;
         }
     }
+
     // muestra la atencion buscado por el tipo
 
-    public function  mostrarTipoAtencionid($idTipoPersonal)
+    public function  mostrarTipoAtencionId($idTipoAtencion)
     {
         try {
-            $result = DB::table('tipopersonal')
-                ->where(['IdTipoPersonal' => $idTipoPersonal])
-                ->where(['Activado' => 0])
+            $result = DB::table('tipoatencion')
+                ->where('IdTipoAtencion',$idTipoAtencion)
+                ->where(['Activado' => 1])
                 ->first();
             $tipoAtencion = new TipoAtencion();
             $tipoAtencion->setIdTipoAtencion($result->IdTipoAtencion);
             $tipoAtencion->setNombre($result->NombreTipoAtencion);
-            $tipoAtencion->setDescripcion($result->DescripcionTipoAtencion);
-
+            $tipoAtencion->setDescripcion($result->Descripcion);
             return $tipoAtencion;
         } catch (Exception $e) {
         }

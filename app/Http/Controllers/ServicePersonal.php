@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+
 use DB;
 use App\Atencion\Personal;
 
@@ -16,89 +17,133 @@ class ServicePersonal extends Controller
     {
     }
 
-    public function nuevoPersonal(Personal $personal1)
+
+    public function nuevoPersonal(Personal $personal)
     {
+
         try {
+            DB::transaction(function () use ($personal) {
+                DB::table('persona')
+                    ->insert(
+                        ['DocIdent' => $personal->getDocuIdent(),
+                            'Nombre' => $personal->getNombre(),
+                            'Apellido' => $personal->getApellido(),
+                            'Sexo' => $personal->getSexo(),
+                            'FechaNac' => $personal->getFechaNacimiento(),
+                            'Email' => $personal->getEmail(),
+                            'Ciudad' => $personal->getCiudad(),
+                            'Direccion' => $personal->getDireccion(),
+                            'ReferenciasLocali' => $personal->getReferenciasLocali(),
+                            'TelefFijo' => $personal->getTelefonoFijo(),
+                            'TelefMovil' => $personal->getTelefonoMovil(),
+                            'Activado' => 1]);
 
-            $personal=$personal1;
-          DB::transaction(function() use ($personal)
-          {
-              DB::table('persona')->insert(
-                  ['DocIdent' => $personal->getDocuIdent(),
-                      'Nombre' => $personal->getNombre(), 'Apellido' => $personal->getApellido(),
-                      'Sexo' => $personal->getSexo(), 'FechaNac' => $personal->getFechaNacimiento(),
-                      'Email' => $personal->getEmail(), 'Ciudad' => $personal->getCiudad(),
-                      'Direccion' => $personal->getDireccion(), 'ReferenciasLocali' => $personal->getReferenciasLocali()
-                      , 'TelefFijo' => $personal->getTelefonoFijo(), 'TelefMovil' => $personal->getTelefonoMovil(),
-                      'Activado' => 1]);
+                $id = DB::table('persona')
+                    ->max('IdPersona');
 
-/*
-              DB::table('personal')->insert(['Privilegios' => $personal->getPrivilegios(),
-                  'UsuarioPersonal' => $personal->getUsuarioPersonal(),
-                  'PaswoordPersonal' => $personal->getPaswoordPersonal(),
-                  'IdPersona' => $personal->getIdPersona(),
-                  'IdTipoPersonal' => $personal->getIdTipoPersonal()]);*/
-
-          }
+                DB::table('personal')
+                    ->insert(['Privilegios' => $personal->getPrivilegios(),
+                        'UsuarioPersonal' => $personal->getUsuarioPersonal(),
+                        'PaswoordPersonal' => $personal->getPaswoordPersonal(),
+                        'IdPersona' => $id,
+                        'IdTipoPersonal' => $personal->getIdTipoPersonal()]);
+            }
 
             );
-
-                return true;
-
-} catch (\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
+
     }
 
     public function editarPersonal(Personal $personal)
     {
+
         try {
-            DB::transaction(function() use ($personal){
-            DB::table('personal')->where('IdPersonal', $personal->getIdPersonal())
-                ->insert(['Privilegios' => $personal->getIdPersonal(),
-                    'UsuarioPersonal' => $personal->getUsuarioPersonal(),
-                    'PaswoordPersonal' => $personal->getPaswoordPersonal(),
-                    'IdPersona' => $personal->getIdPersonal(),
-                    'IdTipoPersonal' => $personal->getIdTipoPersonal()]);
+            DB::transaction(function () use ($personal) {
                 DB::table('persona')
-                    ->where('IdPersona', $personal->getIdPersona())
-                    ->update(['DocIdent' => $personal->getDocuIdent(),
-                        'Nombre' => $personal->getNombre(), 'Apellido' => $personal->getApellido(),
-                        'Sexo' => $personal->getSexo(), 'FechaNac' => $personal->getFechaNacimiento(),
-                        'Email' => $personal->getEmail(), 'Ciudad' => $personal->getCiudad(),
-                        'Direccion' => $personal->getDireccion(), 'ReferenciasLocali' => $personal->getReferenciasLocali()
-                        , 'TelefFijo' => $personal->getTelefonoFijo(), 'TelefMovil' => $personal->getTelefonoMovil()]);
-            });
+                    ->where(['IdPersona' => $personal->getIdPersona()])
+                    ->update(
+                        ['DocIdent' => $personal->getDocuIdent(),
+                            'Nombre' => $personal->getNombre(),
+                            'Apellido' => $personal->getApellido(),
+                            'Sexo' => $personal->getSexo(),
+                            'FechaNac' => $personal->getFechaNacimiento(),
+                            'Email' => $personal->getEmail(),
+                            'Ciudad' => $personal->getCiudad(),
+                            'Direccion' => $personal->getDireccion(),
+                            'ReferenciasLocali' => $personal->getReferenciasLocali(),
+                            'TelefFijo' => $personal->getTelefonoFijo(),
+                            'TelefMovil' => $personal->getTelefonoMovil(),
+                            'Activado' => 1]);
+
+                DB::table('personal')->where(['IdPersona' => $personal->getIdPersona()])
+                    ->update(['Privilegios' => $personal->getPrivilegios(),
+                        'UsuarioPersonal' => $personal->getUsuarioPersonal(),
+                        'PaswoordPersonal' => $personal->getPaswoordPersonal(),
+                        'IdTipoPersonal' => $personal->getIdTipoPersonal(),
+                        'Activado' => 1
+                    ]);
+            }
+
+            );
+            return true;
         } catch (\Exception $e) {
+            return false;
         }
+
+
     }
 
     public function eliminarPersonal($idPersonal)
     {
         try {
-            DB::table('personal')
-                ->where('IdPersonal', $idPersonal)
-                ->insert(['Activado' => 0]);
+            DB::transaction(function () use ($idPersonal) {
+                DB::table('persona')
+                    ->where(['IdPersona' => $idPersonal])
+                    ->update(
+                        ['Activado' => 0]);
+
+                DB::table('personal')->where(['IdPersona' => $idPersonal])
+                    ->update(['Activado' => 0
+                    ]);
+            }
+
+            );
+            return true;
         } catch (\Exception $e) {
+            return false;
         }
     }
 
-    public function mostrarPersonal($idPersonal)
+    public function mostrarPersonal($idPersona)
     {
-        $personal = array();
         try {
-            $result = DB::table('personal')->where('IdPersonal', $idPersonal)->get();
-
+            $resultpersonal = DB::table('personal')->where(['IdPersona'=>$idPersona])->first();
+            $resultpersona = DB::table('persona')->where(['IdPersona'=>$idPersona])->first();
             $personal = new Personal();
-            $personal->setIdTipoPersonal($result->IdPersonal);
-            $personal->setPrivilegios($result->Privilegios);
-            $personal->setUsuarioPersonal($result->UsuarioPersonal);
-            $personal->setPaswoordPersonal($result->PaswoordPersonal);
-            $personal->setIdPersona($result->IdPersona);
+            $personal->setNombre($resultpersona->Nombre);
+            $personal->setApellido($resultpersona->Apellido);
+            $personal->setIdPersona($resultpersona->IdPersona);
+            $personal->setCiudad($resultpersona->Ciudad);
+            $personal->setDocuIdent($resultpersona->DocIdent);
+            $personal->setEmail($resultpersona->Email);
+            $personal->setFechaNacimiento($resultpersona->FechaNac);
+            $personal->setTelefonoMovil($resultpersona->TelefMovil);
+            $personal->setTelefonoFijo($resultpersona->TelefFijo);
+            $personal->setSexo($resultpersona->Sexo);
+            $personal->setReferenciasLocali($resultpersona->ReferenciasLocali);
+            $personal->setIdPersonal($resultpersonal->IdPersonal);
+             $personal->setPrivilegios($resultpersonal->Privilegios);
+             $personal->setUsuarioPersonal($resultpersonal->UsuarioPersonal);
+             $personal->setPaswoordPersonal($resultpersonal->PaswoordPersonal);
+             $personal->setFkidPersona($resultpersonal->IdPersona);
+             $personal->setIdTipoPersonal($resultpersonal->IdTipoPersonal);
 
-            return $personal;
+           return $personal->getApellido();
 
         } catch (\Exception $e) {
+            return null;
         }
     }
 
@@ -107,17 +152,35 @@ class ServicePersonal extends Controller
         try {
             $personal = array();
             try {
-                $result = DB::table('personal')->get();
+                $id = DB::table('personal')->select('IdPersona')->get();
+                for ($i = 0; $i < count($id); $i++)
+                {
+                    echo $id[$i]->IdPersona.'<br>';
+                }
 
-                for ($i = 0; $i < count($result); $i++){
+              /*  $resultpersonal = DB::table('personal')->get();
+                $resultpersona = DB::table('persona')->get();
 
-                $personal[$i] = new Personal();
-                $personal[$i]->setIdTipoPersonal($result[$i]->IdPersonal);
-                $personal[$i]->setPrivilegios($result[$i]->Privilegios);
-                $personal[$i]->setUsuarioPersonal($result[$i]->UsuarioPersonal);
-                $personal[$i]->setPaswoordPersonal($result[$i]->PaswoordPersonal);
-                $personal[$i]->setIdPersona($result[$i]->IdPersona);
-            }
+                for ($i = 0; $i < count($result); $i++) {
+                    $personal[$i] = new Personal();
+                    $personal->setNombre($resultpersona->Nombre);
+                    $personal->setApellido($resultpersona->Apellido);
+                    $personal->setIdPersona($resultpersona->IdPersona);
+                    $personal->setCiudad($resultpersona->Ciudad);
+                    $personal->setDocuIdent($resultpersona->DocIdent);
+                    $personal->setEmail($resultpersona->Email);
+                    $personal->setFechaNacimiento($resultpersona->FechaNac);
+                    $personal->setTelefonoMovil($resultpersona->TelefMovil);
+                    $personal->setTelefonoFijo($resultpersona->TelefFijo);
+                    $personal->setSexo($resultpersona->Sexo);
+                    $personal->setReferenciasLocali($resultpersona->ReferenciasLocali);
+                    $personal->setIdPersonal($resultpersonal->IdPersonal);
+                    $personal->setPrivilegios($resultpersonal->Privilegios);
+                    $personal->setUsuarioPersonal($resultpersonal->UsuarioPersonal);
+                    $personal->setPaswoordPersonal($resultpersonal->PaswoordPersonal);
+                    $personal->setFkidPersona($resultpersonal->IdPersona);
+                    $personal->setIdTipoPersonal($resultpersonal->IdTipoPersonal);
+                }*/
                 return $personal;
 
             } catch (\Exception $e) {

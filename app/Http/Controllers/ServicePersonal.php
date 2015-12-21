@@ -119,8 +119,8 @@ class ServicePersonal extends Controller
     public function mostrarPersonal($idPersona)
     {
         try {
-            $resultpersonal = DB::table('personal')->where(['IdPersona'=>$idPersona])->first();
-            $resultpersona = DB::table('persona')->where(['IdPersona'=>$idPersona])->first();
+            $resultpersonal = DB::table('personal')->where(['IdPersona' => $idPersona])->first();
+            $resultpersona = DB::table('persona')->where(['IdPersona' => $idPersona])->first();
             $personal = new Personal();
             $personal->setNombre($resultpersona->Nombre);
             $personal->setApellido($resultpersona->Apellido);
@@ -134,13 +134,13 @@ class ServicePersonal extends Controller
             $personal->setSexo($resultpersona->Sexo);
             $personal->setReferenciasLocali($resultpersona->ReferenciasLocali);
             $personal->setIdPersonal($resultpersonal->IdPersonal);
-             $personal->setPrivilegios($resultpersonal->Privilegios);
-             $personal->setUsuarioPersonal($resultpersonal->UsuarioPersonal);
-             $personal->setPaswoordPersonal($resultpersonal->PaswoordPersonal);
-             $personal->setFkidPersona($resultpersonal->IdPersona);
-             $personal->setIdTipoPersonal($resultpersonal->IdTipoPersonal);
+            $personal->setPrivilegios($resultpersonal->Privilegios);
+            $personal->setUsuarioPersonal($resultpersonal->UsuarioPersonal);
+            $personal->setPaswoordPersonal($resultpersonal->PaswoordPersonal);
+            $personal->setFkidPersona($resultpersonal->IdPersona);
+            $personal->setIdTipoPersonal($resultpersonal->IdTipoPersonal);
 
-           return $personal->getApellido();
+            return $personal->getApellido();
 
         } catch (\Exception $e) {
             return null;
@@ -149,43 +149,45 @@ class ServicePersonal extends Controller
 
     public function mostrarPersonales()
     {
-        try {
-            $personal = array();
-            try {
-                $id = DB::table('personal')->select('IdPersona')->get();
-                for ($i = 0; $i < count($id); $i++)
-                {
-                    echo $id[$i]->IdPersona.'<br>';
-                }
 
-              /*  $resultpersonal = DB::table('personal')->get();
-                $resultpersona = DB::table('persona')->get();
+        $resultpersonal = array();
+        $resultpersona = array();
+        $personal = array();
 
-                for ($i = 0; $i < count($result); $i++) {
-                    $personal[$i] = new Personal();
-                    $personal->setNombre($resultpersona->Nombre);
-                    $personal->setApellido($resultpersona->Apellido);
-                    $personal->setIdPersona($resultpersona->IdPersona);
-                    $personal->setCiudad($resultpersona->Ciudad);
-                    $personal->setDocuIdent($resultpersona->DocIdent);
-                    $personal->setEmail($resultpersona->Email);
-                    $personal->setFechaNacimiento($resultpersona->FechaNac);
-                    $personal->setTelefonoMovil($resultpersona->TelefMovil);
-                    $personal->setTelefonoFijo($resultpersona->TelefFijo);
-                    $personal->setSexo($resultpersona->Sexo);
-                    $personal->setReferenciasLocali($resultpersona->ReferenciasLocali);
-                    $personal->setIdPersonal($resultpersonal->IdPersonal);
-                    $personal->setPrivilegios($resultpersonal->Privilegios);
-                    $personal->setUsuarioPersonal($resultpersonal->UsuarioPersonal);
-                    $personal->setPaswoordPersonal($resultpersonal->PaswoordPersonal);
-                    $personal->setFkidPersona($resultpersonal->IdPersona);
-                    $personal->setIdTipoPersonal($resultpersonal->IdTipoPersonal);
-                }*/
-                return $personal;
+            $id = DB::table('personal')->select('IdPersona')->get();
 
-            } catch (\Exception $e) {
+            for ($i = 0; $i < count($id); $i++) {
+                echo $id[$i]->IdPersona.'<br>';
+
+                $resultpersonal[$i] = DB::table('personal')->where(['IdPersona' => $id[$i]->IdPersona])->first();
+                $resultpersona[$i] = DB::table('persona')->where(['IdPersona' => $id[$i]->IdPersona])->first();
             }
-        } catch (\Exception $e) {
-        }
+
+
+            for ($i = 0; $i < count($id); $i++) {
+                $personal[$i] = new Personal();
+                $personal[$i]->setNombre($resultpersona[$i]->Nombre);
+                $personal[$i]->setApellido($resultpersona[$i]->Apellido);
+                $personal[$i]->setIdPersona($resultpersona[$i]->IdPersona);
+                $personal[$i]->setCiudad($resultpersona[$i]->Ciudad);
+                $personal[$i]->setDocuIdent($resultpersona[$i]->DocIdent);
+                $personal[$i]->setEmail($resultpersona[$i]->Email);
+                $personal[$i]->setFechaNacimiento($resultpersona[$i]->FechaNac);
+                $personal[$i]->setTelefonoMovil($resultpersona[$i]->TelefMovil);
+                $personal[$i]->setTelefonoFijo($resultpersona[$i]->TelefFijo);
+                $personal[$i]->setSexo($resultpersona[$i]->Sexo);
+                $personal[$i]->setReferenciasLocali($resultpersona[$i]->ReferenciasLocali);
+                $personal[$i]->setIdPersonal($resultpersonal[$i]->IdPersonal);
+                $personal[$i]->setPrivilegios($resultpersonal[$i]->Privilegios);
+                $personal[$i]->setUsuarioPersonal($resultpersonal[$i]->UsuarioPersonal);
+                $personal[$i]->setPaswoordPersonal($resultpersonal[$i]->PaswoordPersonal);
+                $personal[$i]->setFkidPersona($resultpersonal[$i]->IdPersona);
+                $personal[$i]->setIdTipoPersonal($resultpersonal[$i]->IdTipoPersonal);
+            }
+
+        return $personal;
+
+
+
     }
 }

@@ -20,7 +20,93 @@ class ServiceCliente extends controller
     {
         $this->servicePersona = new ServicePersona();
     }
+    public function agregarCliente(Cliente $cliente)
+    {
+        echo $cliente->getFoto();
+        try {
+            DB::transaction(function () use ($cliente) {
+                DB::table('persona')
+                    ->insert(
+                        ['DocIdent' => $cliente->getDocuIdent(),
+                            'Nombre' => $cliente->getNombre(),
+                            'Apellido' => $cliente->getApellido(),
+                            'Sexo' => $cliente->getSexo(),
+                            'FechaNac' => $cliente->getFechaNacimiento(),
+                            'Email' => $cliente->getEmail(),
+                            'Ciudad' => $cliente->getCiudad(),
+                            'Direccion' => $cliente->getDireccion(),
+                            'ReferenciasLocali' => $cliente->getReferenciasLocali(),
+                            'TelefFijo' => $cliente->getTelefonoFijo(),
+                            'TelefMovil' => $cliente->getTelefonoMovil(),
+                            'Activado' => 1]);
 
+                $id = DB::table('persona')
+                    ->max('IdPersona');
+
+                DB::table('cliente')
+                    ->insert(['FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
+                        'ComoConoce' => $cliente->getComoConoce(),
+                        'Foto' => $cliente->getFoto(),
+                        'Persona_IdPersona' => $id]);
+            }
+
+            );
+            return true;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
+
+    public function modificarCliente(Cliente $cliente)
+    {
+        try {
+            DB::transaction(function () use ($cliente) {
+                DB::table('persona')->where(['IdPersona' => $cliente->getIdPersona()])
+                    ->update(
+                        ['DocIdent' => $cliente->getDocuIdent(),
+                            'Nombre' => $cliente->getNombre(),
+                            'Apellido' => $cliente->getApellido(),
+                            'Sexo' => $cliente->getSexo(),
+                            'FechaNac' => $cliente->getFechaNacimiento(),
+                            'Email' => $cliente->getEmail(),
+                            'Ciudad' => $cliente->getCiudad(),
+                            'Direccion' => $cliente->getDireccion(),
+                            'ReferenciasLocali' => $cliente->getReferenciasLocali(),
+                            'TelefFijo' => $cliente->getTelefonoFijo(),
+                            'TelefMovil' => $cliente->getTelefonoMovil()]);
+
+                DB::table('cliente')
+                    ->where(['Persona_IdPersona' => $cliente->getIdPersona()])
+                    ->update(['FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
+                        'ComoConoce' => $cliente->getComoConoce(),
+                        'Foto' => $cliente->getFoto()]);
+            }
+
+            );
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function  eliminarClientePorID($id)
+    {
+        $this->servicePersona->eliminarPersonaPorID($id);
+        DB::table('cliente')
+            ->where('idCliente', $id)
+            ->update(['Activado' => 0]);
+    }
+
+    public function  eliminarClientePorNombre($nombre)
+    {
+        $persona = $this->obtenerClientePorNombre($nombre);
+
+        DB::table('cliente')
+            ->where('idCliente', $persona->getIdPersona())
+            ->update(['Activado' => 0]);
+
+    }
     public function listarClientes()
     {
         $cliente = array();
@@ -82,51 +168,5 @@ class ServiceCliente extends controller
 
     }
 
-    public function agregarCliente(Cliente $cliente)
-    {
-        $count = DB::table('cliente')->max('idCliente');
-        $cliente->setIdPersona($count);
-        $this->servicePersona->agregarPersona(new Persona($cliente->getIdPersona(), $cliente->getNombre(), $cliente->getApellido(),
-            $cliente->getSexo(), $cliente->getDocuIdent(), $cliente->getFechaNacimiento(), $cliente->getEmail(), $cliente->getCiudad(),
-            $cliente->getDireccion(), $cliente->getReferenciasLocali(), $cliente->getTelefonoFijo(), $cliente->getTelefonoMovil()));
 
-        DB::table('cliente')->insert(['idCliente' => $count, 'FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
-                'ComoConoce' => $cliente->getComoConoce(), 'Foto' => $cliente->getFoto(),
-                'Persona_IdPersona' => $cliente->getIdPersona(), 'Activado' => 1]
-        );
-
-    }
-
-    public function modificarCliente(Cliente $cliente)
-    {
-        $this->servicePersona->modificarPersona(new Persona($cliente->getIdPersona(),
-            $cliente->getNombre(), $cliente->getApellido(),
-            $cliente->getSexo(), $cliente->getDocuIdent(), $cliente->getFechaNacimiento(),
-            $cliente->getEmail(), $cliente->getCiudad(),
-            $cliente->getDireccion(), $cliente->getReferenciasLocali(), $cliente->getTelefonoFijo(),
-            $cliente->getTelefonoMovil()));
-        DB::table('cliente')
-            ->where('idCliente', $cliente->getIdCliente())
-            ->update(['FechaAfiliacion' => $cliente->getFechaDeAfiliacion(),
-                'ComoConoce' => $cliente->getComoConoce(), 'Foto' => $cliente->getFoto(),
-                'Persona_IdPersona' => $cliente->getIdPersona()]);
-    }
-
-    public function  eliminarClientePorID($id)
-    {
-        $this->servicePersona->eliminarPersonaPorID($id);
-        DB::table('cliente')
-            ->where('idCliente', $id)
-            ->update(['Activado' => 0]);
-    }
-
-    public function  eliminarClientePorNombre($nombre)
-    {
-        $persona = $this->obtenerClientePorNombre($nombre);
-
-        DB::table('cliente')
-            ->where('idCliente', $persona->getIdPersona())
-            ->update(['Activado' => 0]);
-
-    }
 }

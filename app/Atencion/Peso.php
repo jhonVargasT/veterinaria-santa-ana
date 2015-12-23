@@ -11,6 +11,7 @@ namespace App\Atencion;
 
 class Peso
 {
+    private $idPeso;
     private $peso;
     private $fechaPeso;
     private $anotacion;
@@ -23,12 +24,27 @@ class Peso
      * @param $peso
      * @param $fechaPeso
      */
-    public function __construct($anotacion, $peso, $fechaPeso)
+    public function __construct()
     {
-        $this->anotacion = $anotacion;
-        $this->peso = $peso;
-        $this->fechaPeso = $fechaPeso;
+
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIdPeso()
+    {
+        return $this->idPeso;
+    }
+
+    /**
+     * @param mixed $idPeso
+     */
+    public function setIdPeso($idPeso)
+    {
+        $this->idPeso = $idPeso;
+    }
+
 
     /**
      * @return mixed

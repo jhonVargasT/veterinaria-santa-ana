@@ -14,12 +14,25 @@ class Cliente extends Persona
     private $fechaDeAfiliacion;
     private $comoConoce;
     private $fotografia;
+    private $idfkPersona;
 
     public function __construct
     ()
     {
 
-    }
+    }/**
+ * @return mixed
+ */
+    public function getIdfkPersona()
+{
+    return $this->idfkPersona;
+}/**
+ * @param mixed $idfkPersona
+ */
+public function setIdfkPersona($idfkPersona)
+{
+    $this->idfkPersona = $idfkPersona;
+}
 
 
     /**

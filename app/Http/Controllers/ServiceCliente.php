@@ -20,6 +20,7 @@ class ServiceCliente extends controller
     {
         $this->servicePersona = new ServicePersona();
     }
+
     public function agregarCliente(Cliente $cliente)
     {
         echo $cliente->getFoto();
@@ -90,57 +91,104 @@ class ServiceCliente extends controller
         }
     }
 
-    public function  eliminarClientePorID($id)
+    public function  eliminarClientePorID($idPersona)
     {
-        $this->servicePersona->eliminarPersonaPorID($id);
-        DB::table('cliente')
-            ->where('idCliente', $id)
-            ->update(['Activado' => 0]);
+        try {
+            DB::transaction(function () use ($idPersona) {
+                DB::table('persona')->where(['IdPersona' => $idPersona])
+                    ->update(
+                        ['Activado' => 0]);
+
+                DB::table('cliente')
+                    ->where(['Persona_IdPersona' => $idPersona])
+                    ->update(['Activado' => 0]);
+            }
+            );
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
-    public function  eliminarClientePorNombre($nombre)
-    {
-        $persona = $this->obtenerClientePorNombre($nombre);
 
-        DB::table('cliente')
-            ->where('idCliente', $persona->getIdPersona())
-            ->update(['Activado' => 0]);
-
-    }
     public function listarClientes()
     {
+        $resultCliente = array();
+        $resultpersona = array();
         $cliente = array();
-        $clientes = DB::select('select * from cliente WHERE Activado = 1');
-        for ($i = 0; $i < count($clientes); $i++) {
+        try {
+            $id = DB::table('cliente')->select('Persona_IdPersona')->get();
+            for ($i = 0; $i < count($id); $i++) {
+                $resultCliente[$i] = DB::table('cliente')->where(['Activado'=>1])->where(['Persona_IdPersona' => $id[$i]->Persona_IdPersona])->first();
+                $resultpersona[$i] = DB::table('persona')->where(['Activado'=>1])->where(['IdPersona' => $id[$i]->Persona_IdPersona])->first();
+            }
+            for ($i = 0; $i < count($id);$i++) {
+                $cliente[$i] = new Cliente();
+                $cliente[$i]->setNombre($resultpersona[$i]->Nombre);
+                $cliente[$i]->setApellido($resultpersona[$i]->Apellido);
+                $cliente[$i]->setIdPersona($resultpersona[$i]->IdPersona);
+                $cliente[$i]->setCiudad($resultpersona[$i]->Ciudad);
+                $cliente[$i]->setDocuIdent($resultpersona[$i]->DocIdent);
+                $cliente[$i]->setEmail($resultpersona[$i]->Email);
+                $cliente[$i]->setFechaNacimiento($resultpersona[$i]->FechaNac);
+                $cliente[$i]->setTelefonoMovil($resultpersona[$i]->TelefMovil);
+                $cliente[$i]->setTelefonoFijo($resultpersona[$i]->TelefFijo);
+                $cliente[$i]->setSexo($resultpersona[$i]->Sexo);
+                $cliente[$i]->setReferenciasLocali($resultpersona[$i]->ReferenciasLocali);
+                $cliente[$i]->setDireccion($resultpersona[$i]->Direccion);
+                $cliente[$i]->setFechaDeAfiliacion($resultCliente[$i]->FechaAfiliacion);
+                $cliente[$i]->setComoConoce($resultCliente[$i]->ComoConoce);
+                $cliente[$i]->setFoto($resultCliente[$i]->Foto);
+                $cliente[$i]->setIdCliente($resultCliente[$i]->IdCliente);
+                $cliente[$i]->setIdfkPersona($resultCliente[$i]->Persona_IdPersona);
+            }
 
-            $persona = $this->servicePersona->obtenerPersona($i);
-            $cliente[$i] = new Cliente($clientes[$i]->idCliente, $clientes[$i]->FechaAfiliacion,
-                $clientes[$i]->ComoConoce, $clientes[$i]->Foto, $clientes[$i]->Persona_IdPersona,
-                $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
-                $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
-                , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
-                $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
+            return $cliente;
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
-
-        return $cliente;
     }
 
 
     public function obtenerCliente($idCliente)
     {
 
-        $clientes = DB::table('cliente')->where('idCliente', $idCliente)->first();
-        $persona = $this->servicePersona->obtenerPersona($clientes->idCliente);
-        $cliente = new Cliente($clientes->idCliente, $clientes->FechaAfiliacion,
-            $clientes->ComoConoce, $clientes->Foto, $clientes->Persona_IdPersona,
-            $persona->getNombre(), $persona->getApellido(), $persona->getSexo(),
-            $persona->getDocuIdent(), $persona->getFechaNacimiento(), $persona->getEmail()
-            , $persona->getCiudad(), $persona->getDireccion(), $persona->getReferenciasLocali(),
-            $persona->getTelefonoMovil(), $persona->getTelefonoFijo());
-        return $cliente;
+        try {
+            $resultCliente = DB::table('cliente')->where(['Activado'=>1])->where(['Persona_IdPersona' => $idCliente])->first();
+            $resultpersona = DB::table('persona')->where(['Activado'=>1])->where(['IdPersona' => $idCliente])->first();
+            $cliente = new Cliente();
+            $cliente->setNombre($resultpersona->Nombre);
+            $cliente->setApellido($resultpersona->Apellido);
+            $cliente->setIdPersona($resultpersona->IdPersona);
+            $cliente->setCiudad($resultpersona->Ciudad);
+            $cliente->setDocuIdent($resultpersona->DocIdent);
+            $cliente->setEmail($resultpersona->Email);
+            $cliente->setFechaNacimiento($resultpersona->FechaNac);
+            $cliente->setTelefonoMovil($resultpersona->TelefMovil);
+            $cliente->setTelefonoFijo($resultpersona->TelefFijo);
+            $cliente->setSexo($resultpersona->Sexo);
+            $cliente->setReferenciasLocali($resultpersona->ReferenciasLocali);
+            $cliente->setDireccion($resultpersona->Direccion);
+            $cliente->setFechaDeAfiliacion($resultCliente->FechaAfiliacion);
+            $cliente->setComoConoce($resultCliente->ComoConoce);
+            $cliente->setFoto($resultCliente->Foto);
+            $cliente->setIdCliente($resultCliente->IdCliente);
+            $cliente->setIdfkPersona($resultCliente->Persona_IdPersona);
+
+
+            return $cliente;
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+
     }
 
-    public function obtenerClientePorNombre($nombre)
+
+
+   /* public function obtenerClientePorNombre($nombre)
     {
         $personas = $this->servicePersona->obtenerPersonaNombre($nombre);
         $clientes = DB::table('cliente')->where('idCliente', $personas->getIdPersona())->first();
@@ -166,7 +214,7 @@ class ServiceCliente extends controller
             $personas->getTelefonoMovil(), $personas->getTelefonoFijo());
         return $cliente;
 
-    }
+    }*/
 
 
 }

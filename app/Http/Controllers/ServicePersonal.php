@@ -122,6 +122,7 @@ class ServicePersonal extends Controller
             $resultpersonal = DB::table('personal')->where(['IdPersona' => $idPersona])->first();
             $resultpersona = DB::table('persona')->where(['IdPersona' => $idPersona])->first();
             $personal = new Personal();
+            $personal->setDireccion($resultpersona->Direccion);
             $personal->setNombre($resultpersona->Nombre);
             $personal->setApellido($resultpersona->Apellido);
             $personal->setIdPersona($resultpersona->IdPersona);

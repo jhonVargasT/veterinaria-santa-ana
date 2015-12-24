@@ -18,24 +18,15 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServiceCliente();
+        $this->service=new ServicePersonal();
     }
 
     public function agregar()
     {
+        $personal=new Personal();
+        $this->service->nuevoPersonal($personal);
 
 
-         $peso=new Peso();
-
-
-        $cliente = $this->service->listarClientes();
-
-        for ($i = 0; $i < count($cliente);$i++) {
-
-            echo $cliente[$i]->getApellido().$cliente[$i]->getIdPersona().
-                $cliente[$i]->getCiudad();
-
-        }
 
     }
 

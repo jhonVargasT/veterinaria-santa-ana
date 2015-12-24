@@ -66,7 +66,7 @@ class ServiceDocumento extends Controller
         $documento = array();
         try {
             $result = DB::table('documento')->where(['IdAnimal' => $idAnimal])
-                ->where('Activado',1)
+                ->where('Activado', 1)
                 ->get();
 
             for ($i = 0; $i < count($result); $i++) {
@@ -79,7 +79,6 @@ class ServiceDocumento extends Controller
                 $documento[$i]->setIdPersonal($result[$i]->IdPersonal);
 
             }
-
             return $documento;
 
         } catch (mysqli_sql_exception $e) {
@@ -92,10 +91,9 @@ class ServiceDocumento extends Controller
         $documento = array();
         try {
             $result = DB::table('documento')->where('IdPersonal', $idPersonal)
-                ->where('Activado',1)->get();
+                ->where('Activado', 1)->get();
 
             for ($i = 0; $i < count($result); $i++) {
-
                 $documento[$i] = new Documento();
                 $documento[$i]->setIdDocumento($result[$i]->IdDocumento);
                 $documento[$i]->setTipoDocumento($result[$i]->TipoDeDocumento);
@@ -104,8 +102,6 @@ class ServiceDocumento extends Controller
                 $documento[$i]->setIdPersonal($result[$i]->IdPersonal);
 
             }
-
-
             return $documento;
 
         } catch (mysqli_sql_exception $e) {
@@ -113,5 +109,21 @@ class ServiceDocumento extends Controller
         }
     }
 
+    public function obtenerDocumento($idDocumento)
+    {
+        try {
+            $result = DB::table('documento')->where('IdDocumento', $idDocumento)
+                ->where('Activado', 1)->first();
+            $documento = new Documento();
+            $documento->setIdDocumento($result->IdDocumento);
+            $documento->setTipoDocumento($result->TipoDeDocumento);
+            $documento->setUbicacionDocunemto($result->UbicacionDocumento);
+            $documento->setIdAnimal($result->IdAnimal);
+            $documento->setIdPersonal($result->IdPersonal);
+            return $documento;
+        } catch (mysqli_sql_exception $e) {
+            return null;
+        }
+    }
 
 }

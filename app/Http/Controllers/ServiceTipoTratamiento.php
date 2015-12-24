@@ -63,7 +63,7 @@ class ServiceTipoTratamiento extends  controller
         }
     }
 
-    public function obtenerTiposTratamiento()
+    public function mostrarTiposTratamiento()
     {
         $tipo=array();
         try{
@@ -83,7 +83,7 @@ class ServiceTipoTratamiento extends  controller
         }
     }
 
-    public function obtenerTipoTratamiento($idTipoTratamiento)
+    public function mostrarTipoTratamiento($idTipoTratamiento)
     {
         try{
             $result=DB::table('tipotratamiento')->where(['Activado'=>1])->

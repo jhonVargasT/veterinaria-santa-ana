@@ -75,7 +75,7 @@ class ServiceTipoAtencion
             }
             return $tipoAtencion;
         } catch (Exception $e) {
-            return false;
+            return null;
         }
     }
 

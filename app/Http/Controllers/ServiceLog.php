@@ -24,8 +24,10 @@ class ServiceLog extends Controller
 
     public function nuevoLog(Log $log)
     {
-        try {
 
+        try {
+            $fecha = strftime("%Y-%m-%d", time());
+            $log->setFechaLog($fecha );
             DB::table('log')->insert(['FechaLog' => $log->getFechaLog(),
                 'TipoLog' => $log->getTipoLog(),
                 'DescripcionLog' => $log->getDescripcion(),

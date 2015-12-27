@@ -53,11 +53,11 @@ class ServiceRetorno extends Controller
         }
     }
 
-    public function eliminarRetorno($idRetorno)
+    public function eliminarRetorno($idAtencion)
     {
         try {
 
-            DB::table('retorno')->where(['IdRetorno' => $idRetorno])
+            DB::table('retorno')->where(['IdAtencion' => $idAtencion])
                 ->update(['Activado' => 0]);
             return true;
         } catch (\Exception $e) {
@@ -74,7 +74,7 @@ class ServiceRetorno extends Controller
                 $retorno[$i] = new Retorno();
                 $retorno[$i]->setIdRetorno($retorno[$i]->IdRetorno);
                 $retorno[$i]->setFechaRetorno($retorno[$i]->FechaRetorno);
-                //$retorno[$i]->setHoraRetorno($retorno[$i]->HoraRetorno);
+                $retorno[$i]->setHoraRetorno($retorno[$i]->HoraRetorno);
                 $retorno[$i]->setObservacion($retorno[$i]->ObservacionRetorno);
                 $retorno[$i]->setIdAtencion($retorno[$i]->IdAtencion);
             }

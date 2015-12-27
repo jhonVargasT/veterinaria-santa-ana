@@ -19,7 +19,7 @@ class ServiceAtencion
 
     }
 
-    public function nuevoAtencion(Atencion $atencion)
+    public function nuevaAtencion(Atencion $atencion)
     {
         try {
             DB::table('atencion')

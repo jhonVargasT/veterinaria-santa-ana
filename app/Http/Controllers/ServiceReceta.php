@@ -15,6 +15,10 @@ use Mockery\CountValidator\Exception;
 class ServiceReceta extends Controller
 {
 
+        public  function __construct()
+        {
+        }
+
     public function nuevaReceta(Receta $receta)
     {
         Try {

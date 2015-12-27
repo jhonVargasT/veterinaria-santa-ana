@@ -64,7 +64,7 @@ class ServiceApunte extends Controller
         }
     }
 
-    public function mostrarApuntesPersonal($idPersonal)
+    public function obtenerApuntesPersonal($idPersonal)
     {
         $apunte=array();
         try {
@@ -85,7 +85,7 @@ class ServiceApunte extends Controller
             return null;
         }
     }
-    public function mostrarApuntesAnimal($idAnimal)
+    public function obtenerApuntesAnimal($idAnimal)
     {
         $apunte=array();
         try {
@@ -107,7 +107,7 @@ class ServiceApunte extends Controller
         }
     }
 
-    public function mostrarApuntesFecha($idAnimal,$fechaApunte)
+    public function obtenerApuntesFecha($idAnimal,$fechaApunte)
     {
 
         try {

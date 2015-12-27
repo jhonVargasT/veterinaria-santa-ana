@@ -27,7 +27,7 @@ class ServiceProtocolo extends Controller
         try {
             DB::table('protocolo')->insert(['IdTipoTratamiento' => $protocolo->getIdTipoTratamiento(),
                 'NombreProtocolo' => $protocolo->getNombreProtocolo()
-                , 'NroDosis' => $protocolo->getNroDosis()]);
+                , 'NroDosis' => $protocolo->getNroDosis(),'Duracion'=>$protocolo->getDuracion()]);
             return true;
         } catch (Exception $e) {
             return false;
@@ -41,7 +41,8 @@ class ServiceProtocolo extends Controller
             DB::table('protocolo')->where(['IdProtocolo' => $protocolo->getIdProtocolo()])
                 ->update(['IdTipoTratamiento' => $protocolo->getIdTipoTratamiento(),
                     'NombreProtocolo' => $protocolo->getNombreProtocolo()
-                    , 'NroDosis' => $protocolo->getNroDosis()]);
+                    , 'NroDosis' => $protocolo->getNroDosis(),
+                    'Duracion'=>$protocolo->getDuracion()]);
             return true;
         } catch (Exception $e) {
             return false;
@@ -71,6 +72,7 @@ class ServiceProtocolo extends Controller
                 $protocolo[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
                 $protocolo[$i]->setNombreProtocolo($result[$i]->NombreProtocolo);
                 $protocolo[$i]->setNroDosis($result[$i]->NroDosis);
+                $protocolo[$i]->setDuracion($result[$i]->Duracion);
             }
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {
@@ -90,6 +92,7 @@ class ServiceProtocolo extends Controller
                 $protocolo->setIdTipoTratamiento($result->IdTipoTratamiento);
                 $protocolo->setNombreProtocolo($result->NombreProtocolo);
                 $protocolo->setNroDosis($result->NroDosis);
+                $protocolo->setDuracion($result->Duracion);
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {
             return null;
@@ -109,6 +112,7 @@ class ServiceProtocolo extends Controller
                 $protocolo[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
                 $protocolo[$i]->setNombreProtocolo($result[$i]->NombreProtocolo);
                 $protocolo[$i]->setNroDosis($result[$i]->NroDosis);
+                $protocolo[$i]->setDuracion($result[$i]->Duracion);
             }
             return $protocolo;
         } catch (\mysqli_sql_exception $e) {

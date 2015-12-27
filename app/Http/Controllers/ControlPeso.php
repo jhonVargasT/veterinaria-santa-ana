@@ -18,9 +18,7 @@ class ControlPeso extends Controller
     private $serviceLog;
 
 
-    /**
-     * ControlPeso constructor.
-     */
+
     public function __construct()
     {
         $this->servicePeso = new ServicePeso();
@@ -41,10 +39,15 @@ class ControlPeso extends Controller
     {
         $result = $this->servicePeso->agregarPeso($peso);
         if ($result) {
-            $this->agregarLog($peso->getIdAnimal(), 'Peso', 'Pesar animal');
-            return 'Peso agregado correctamente';
+            $log = new Log();
+            $log->setIdAnimal($peso->getIdAnimal());
+            $log->setTipoLog('Pesaje');
+            $log->setDescripcion(' Pesado con exito');
+            $this->serviceLog->nuevoLog($log);
+
+            return 'Atencion creada con exito';
         } else {
-            return 'No se pudo agregar el peso';
+            return 'Error al crear atencion, intentelo nuevamente';
         }
     }
 

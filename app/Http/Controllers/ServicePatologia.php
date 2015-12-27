@@ -17,11 +17,11 @@ class ServicePatologia extends Controller
 
     public function __construct()
     {
-
     }
 
-    /*Los metodos estan implementados para que devuelvan verdadero o falso
-    segun se ejecuten en la base de datos(0 o 1)*/
+
+    /***Los metodos estan implementados para que devuelvan verdadero o falso
+    segun se ejecuten en la base de datos(0 o 1)****/
     public function agregarPatologia(Patologia $patologia)
     {
         try {

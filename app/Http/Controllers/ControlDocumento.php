@@ -37,10 +37,15 @@ class ControlDocumento extends Controller
     {
         $result = $this->serviceDocumento->nuevoDocumento($documento);
         if ($result) {
-            $this->agregarLog($documento->getIdAnimal(), 'Documento', 'Documento agregado ');
-            return "Documento agregado conexito";
+            $log = new Log();
+            $log->setIdAnimal($documento->getIdAnimal());
+            $log->setTipoLog('Documento');
+            $log->setDescripcion('Documento aderido cone xitocon exito');
+            $this->serviceLog->nuevoLog($log);
+
+            return 'Atencion creada con exito';
         } else {
-            return "problemas en el registro, error en el ingreso de datos";
+            return 'Error al crear atencion, intentelo nuevamente';
         }
     }
 

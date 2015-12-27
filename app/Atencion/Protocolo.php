@@ -12,6 +12,7 @@ class Protocolo
     private $idTipoTratamiento;
     private $nombreProtocolo;
     private $nroDosis;
+    private $duracion;
 
     /**
      * Protocolo constructor.
@@ -20,6 +21,22 @@ class Protocolo
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDuracion()
+    {
+        return $this->duracion;
+    }
+
+    /**
+     * @param mixed $duracion
+     */
+    public function setDuracion($duracion)
+    {
+        $this->duracion = $duracion;
     }
 
 

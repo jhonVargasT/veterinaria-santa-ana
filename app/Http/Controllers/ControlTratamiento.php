@@ -11,5 +11,5 @@ namespace App\Http\Controllers;
 
 class ControlTratamiento extends Controller
 {
-
+ private  $ServicePr;
 }

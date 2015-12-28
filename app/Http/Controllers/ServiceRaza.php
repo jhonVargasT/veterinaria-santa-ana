@@ -29,7 +29,7 @@ class ServiceRaza extends Controller
 
     public function obtenerRaza($idRaza)
     {
-        $raza = DB::table('raza')->where('idRaza', $idRaza)->first();
+        $raza = DB::table('raza')-> where('Activado', 1)->where('idRaza', $idRaza)->first();
 
         return $razas = new Raza($raza->idRaza, $raza->Nombre,
             $raza->EstiloDePelo, $raza->Especie_idEspecie);
@@ -38,7 +38,7 @@ class ServiceRaza extends Controller
     public function obtenerRazaNombre($nombre)
     {
 
-        $raza = DB::table('raza')->where('Nombre', $nombre)->first();
+        $raza = DB::table('raza') ->where('Activado', 1)->where('Nombre', $nombre)->first();
         //  Especie $especie=new Especie());
         return $razas = new Raza($raza->idRaza, $raza->Nombre,
             $raza->EstiloDePelo, $raza->Especie_idEspecie);

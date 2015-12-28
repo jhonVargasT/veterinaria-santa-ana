@@ -9,7 +9,7 @@
 namespace App\Atencion;
 
 
-class PAtologia
+class Patologia
 {
     private $idPatologia;
     private $nombrePatologia;

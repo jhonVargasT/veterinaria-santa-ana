@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Atencion\Personal;
 use App\Atencion\Peso;
+use App\Atencion\Tratamiento;
 use App\Cliente;
 use Mockery\Exception;
 
@@ -18,15 +19,15 @@ class pruebas extends Controller
     private $service;
     public function __construct()
     {
-        $this->service=new ServicePersonal();
+        $this->service=new ControlTratamiento();
     }
 
     public function agregar()
     {
-        $personal=new Personal();
-        $this->service->nuevoPersonal($personal);
 
-
+        $trat=new Tratamiento();
+        $trat->setFechaAplicacion('1992-08-15');
+        $this->service->nuevoTratamiento($trat,2);
 
     }
 

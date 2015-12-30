@@ -89,33 +89,77 @@ class ControlTratamiento extends Controller
         }
     }
 
-    public function nuevoTratamiento(Tratamiento $tratamiento,$idProtocolo)
+    public function nuevoTratamiento(Tratamiento $tratamiento, $idProtocolo)
     {
         /********* cuando instancies este metodo al pasarle la Receta no pongas la fecha de aplicacion
          * la fecha de aplicacion la pondra otro metodo por eso se puede poner null*******/
 
-        $proto=$this->serviceProtocolo->obtenerProtocolo($idProtocolo);
-        $dur=$proto->getDuracion();
-       // echo $dur;
-        /*********************************************/
+        $proto = $this->serviceProtocolo->obtenerProtocolo($idProtocolo);
+        $dur = $proto->getDuracion();
         $fecha = strftime("%Y-%m-%d", time());
-        $tratamiento->setFechaProgramacion($fecha);
-       /* for($i=0;$i<$proto->getNroDosis();$i++)
-        {
-            if($i==0) {
-                echo '<br>'. $tratamiento->getFechaAplicacion();
-               echo '<br>'.$dur=$dur+$dur;
+        $tratamiento->setFechaAtencion($fecha);
+        $dura = 0;
+        for ($i = 0; $i < $proto->getNroDosis(); $i++) {
+
+            if ($i == 0) {
+                $fechaAp = $tratamiento->getFechaProgramacion();
+                $fecha_final = date("Y-m-d", strtotime("$fechaAp ")) . '<br>';
+                $tratamiento->setFechaProgramacion($fecha_final);
+                $this->serviceTratamiento->nuevoTratamiento($tratamiento);
+                $tratamiento->setFechaProgramacion($fechaAp);
+
+            } else {
+                $dura = $dura + $dur;
+                $fechaAp = $tratamiento->getFechaProgramacion();
+                $fecha_final = date("Y-m-d", strtotime("$fechaAp + $dura days")) . '<br>';
+                $tratamiento->setFechaProgramacion($fecha_final);
+                $this->serviceTratamiento->nuevoTratamiento($tratamiento);
+                $tratamiento->setFechaProgramacion($fechaAp);
             }
-            else
-            {
+        }
+
+    }
+
+    public function aplicarTratamiento($idTratamiento)
+    {
+            $resut=$this->serviceTratamiento->obtenerTratamiento($idTratamiento);
+            $fecha = strftime("%Y-%m-%d", time());
+            $resut->setFechaAplicacion($fecha);
+        if($resut->getFechaProgramacion()==$fecha)
+        {
+            $this->serviceTratamiento->editarFechaAplicacion($idTratamiento,$fecha);
+        }
+        else{
+
+            $this->serviceTratamiento->editarFechaAplicacion($idTratamiento,$fecha);
+            $result = $this->serviceTratamiento->buscarTratamientosContinuos
+            ($resut->getFechaAtencion(),$resut->getIdAnimal());
+            $tipoTrata=$this->serviceTipoTratamiento->mostrarTipoTratamiento($resut->getIdTipoTratamiento());
+            $proto=$this->serviceProtocolo->obtenerProtocolo($tipoTrata->get)
+
+            for ($i = 0; $i < count($result); $i++) {
+
+                echo  $result[$i]->getIdTratamiento();
+                echo $result[$i]->getFechaProgramacion();
+                echo $result[$i]->getFechaAplicacion();
+                echo  $result[$i]->getLote();
+                echo $result[$i]->getFechaAtencion();
+                echo  $result[$i]->getLaboratorio();
+                echo $result[$i]->getIdTipoTratamiento();
+                echo $result[$i]->getIdAnimal();
+                echo $result[$i]->getIdPersonal();
+                echo '<br>';
 
             }
-        }*/
-        $fecha = date('Y-m-j');
-        $nuevafecha = strtotime ( '+'+$dur+' day' , strtotime ( $fecha ) ) ;
-        $nuevafecha = date ( 'Y-m-j' , $nuevafecha );
-        echo $nuevafecha;
+            echo 'la';
+
+
+        }
+
+
 
 
     }
+
+
 }

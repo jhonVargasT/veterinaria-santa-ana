@@ -25,9 +25,7 @@ class pruebas extends Controller
     public function agregar()
     {
 
-        $trat=new Tratamiento();
-        $trat->setFechaAplicacion('1992-08-15');
-        $this->service->nuevoTratamiento($trat,2);
+        $this->service->aplicarTratamiento(42);
 
     }
 

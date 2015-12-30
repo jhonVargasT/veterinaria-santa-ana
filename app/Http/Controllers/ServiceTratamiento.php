@@ -56,6 +56,7 @@ class ServiceTratamiento
                 'IdTipoTratamiento' => $tratamiento->getIdTipoTratamiento(),
                 'IdAnimal' => $tratamiento->getIdAnimal(),
                 'IdPersonal' => $tratamiento->getIdPersonal()
+
             ]);
             return true;
         } catch (Exception $e) {
@@ -72,11 +73,53 @@ class ServiceTratamiento
             where(['IdTratamiento' => $idTratamiento])
                 ->where('Activado', 1)->
                 update(['FechaAplicacion' => $fechaAplicacion,
+                    'Estado' => 1
                 ]);
             return true;
         } catch (Exception $e) {
 
             return false;
+        }
+    }
+    public function editarFechaProgramacion($idTratamiento,$fechaProgramacion)
+    {
+        try {
+            DB::table('tratamiento')->
+            where(['IdTratamiento' => $idTratamiento])
+                ->where('Activado', 1)->
+                update(['FechaProgramacion' => $fechaProgramacion
+                ]);
+            return true;
+        } catch (Exception $e) {
+
+            return false;
+        }
+    }
+
+    public function buscarTratamientosContinuos($fechaAtencion,$idAnimal)
+    {
+        $tratamiento = array();
+        try {
+            $result = DB::table('tratamiento')->where('IdAnimal', $idAnimal)
+                ->where('FechaAtencion', $fechaAtencion)
+                ->where('Activado', 1)
+                ->where('Estado',0)
+                ->get();
+            for ($i = 0; $i < count($result); $i++) {
+                $tratamiento[$i] = new Tratamiento();
+                $tratamiento[$i]->setIdTratamiento($result[$i]->IdTratamiento);
+                $tratamiento[$i]->setFechaProgramacion($result[$i]->FechaProgramacion);
+                $tratamiento[$i]->setFechaAplicacion($result[$i]->FechaAplicacion);
+                $tratamiento[$i]->setLote($result[$i]->Lote);
+                $tratamiento[$i]->setFechaAtencion($result[$i]->FechaAtencion);
+                $tratamiento[$i]->setLaboratorio($result[$i]->Laboratorio);
+                $tratamiento[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
+                $tratamiento[$i]->setIdAnimal($result[$i]->IdAnimal);
+                $tratamiento[$i]->setIdPersonal($result[$i]->IdPersonal);
+            }
+            return $tratamiento;
+        } catch (Exception $e) {
+            return null;
         }
     }
 
@@ -116,7 +159,7 @@ class ServiceTratamiento
             }
             return $tratamiento;
         } catch (Exception $e) {
-            return false;
+            return null;
         }
     }
 

@@ -18,6 +18,7 @@ class Tratamiento
     private $idTipoTratamiento;
     private $idAnimal;
     private $IdPersonal;
+    private $estado;
 
     /**
      * Tratamiento constructor.
@@ -34,6 +35,22 @@ class Tratamiento
     public function __construct()
     {
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param mixed $estado
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
     }
 
 

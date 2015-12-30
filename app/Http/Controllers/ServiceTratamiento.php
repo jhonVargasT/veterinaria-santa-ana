@@ -156,6 +156,7 @@ class ServiceTratamiento
                 $tratamiento[$i]->setIdTipoTratamiento($result[$i]->IdTipoTratamiento);
                 $tratamiento[$i]->setIdAnimal($result[$i]->IdAnimal);
                 $tratamiento[$i]->setIdPersonal($result[$i]->IdPersonal);
+                $tratamiento[$i]-> setEstado($result[$i]->Estado);
             }
             return $tratamiento;
         } catch (Exception $e) {
@@ -183,6 +184,7 @@ class ServiceTratamiento
             $tratamiento->setIdTipoTratamiento($result->IdTipoTratamiento);
             $tratamiento->setIdAnimal($result->IdAnimal);
             $tratamiento->setIdPersonal($result->IdPersonal);
+            $tratamiento-> setEstado($result->Estado);
             return $tratamiento;
 
         } catch (Exception $e) {

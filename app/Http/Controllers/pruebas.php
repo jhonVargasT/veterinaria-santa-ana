@@ -25,7 +25,7 @@ class pruebas extends Controller
     public function agregar()
     {
 
-        $this->service->aplicarTratamiento(42);
+        $this->service->aplicarTratamiento(45);
 
     }
 

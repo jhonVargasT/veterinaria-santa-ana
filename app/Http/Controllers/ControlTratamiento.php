@@ -122,44 +122,42 @@ class ControlTratamiento extends Controller
 
     public function aplicarTratamiento($idTratamiento)
     {
-            $resut=$this->serviceTratamiento->obtenerTratamiento($idTratamiento);
-            $fecha = strftime("%Y-%m-%d", time());
-            $resut->setFechaAplicacion($fecha);
-        if($resut->getFechaProgramacion()==$fecha)
-        {
-            $this->serviceTratamiento->editarFechaAplicacion($idTratamiento,$fecha);
-        }
-        else{
+        $resut = $this->serviceTratamiento->obtenerTratamiento($idTratamiento);
+        $fecha = strftime("%Y-%m-%d", time());
+        $resut->setFechaAplicacion($fecha);
+        $resut->getEstado();
+        if(  strtotime($resut->getFechaProgramacion()) == strtotime($fecha)) {
+            if ($resut->getEstado() == 0) {
+                if ($resut->getFechaProgramacion() == $fecha) {
+                    $this->serviceTratamiento->editarFechaAplicacion($idTratamiento, $fecha);
+                } else {
 
-            $this->serviceTratamiento->editarFechaAplicacion($idTratamiento,$fecha);
-            $result = $this->serviceTratamiento->buscarTratamientosContinuos
-            ($resut->getFechaAtencion(),$resut->getIdAnimal());
-            $tipoTrata=$this->serviceTipoTratamiento->mostrarTipoTratamiento($resut->getIdTipoTratamiento());
-            $proto=$this->serviceProtocolo->obtenerProtocolo($tipoTrata->get)
+                    $this->serviceTratamiento->editarFechaAplicacion($idTratamiento, $fecha);
+                    $result = $this->serviceTratamiento->buscarTratamientosContinuos
+                    ($resut->getFechaAtencion(), $resut->getIdAnimal());
+                    $diferencia = strtotime($result[1]->getFechaProgramacion()) - strtotime($result[0]->getFechaProgramacion());
+                    $diferencia_dias = intval($diferencia / 60 / 60 / 24);
+                    $dura = 0;
+                    for ($i = 0; $i < count($result); $i++) {
+                        $dura = $dura + $diferencia_dias;
+                        $fechaAp = $resut->getFechaAplicacion();
+                        echo $fecha_final = date("Y-m-d", strtotime("$fechaAp + $dura days")) . '<br>';
+                        $this->serviceTratamiento->editarFechaProgramacion($result[$i]->getIdTratamiento(),
+                            $fecha_final);
+                    }
 
-            for ($i = 0; $i < count($result); $i++) {
 
-                echo  $result[$i]->getIdTratamiento();
-                echo $result[$i]->getFechaProgramacion();
-                echo $result[$i]->getFechaAplicacion();
-                echo  $result[$i]->getLote();
-                echo $result[$i]->getFechaAtencion();
-                echo  $result[$i]->getLaboratorio();
-                echo $result[$i]->getIdTipoTratamiento();
-                echo $result[$i]->getIdAnimal();
-                echo $result[$i]->getIdPersonal();
-                echo '<br>';
-
+                }
+            } else {
+                echo 'El tratamiento ya fue aplicado';
             }
-            echo 'la';
-
-
         }
 
-
-
+        $dif = strtotime($resut->getFechaProgramacion()) - strtotime($fecha);
+        $diferencia_dias = intval($dif / 60 / 60 / 24);
+            echo 'Aun no se puede aplicar el tratamiento faltan '.+$diferencia_dias.' dias';
+        }
 
     }
 
 
-}
